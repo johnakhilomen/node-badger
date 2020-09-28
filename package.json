@@ -1,0 +1,50 @@
+{
+  "name": "node-badger",
+  "version": "1.1.5",
+  "description": "node-badger nodeJS Framework",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "mocha --recursive",
+    "test-with-coverage": "nyc --reporter=html --reporter=text  -t coverage --report-dir coverage/summary mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnakhilomen/node-badger.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mvc",
+    "node",
+    "mvc",
+    "nodejs",
+    "mvc",
+    "framework",
+    "node",
+    "mvc",
+    "framework",
+    "node-badger",
+    "node-badger",
+    "mvc",
+    "node-badger",
+    "framework"
+  ],
+  "author": "John Akhilomen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/johnakhilomen/node-badger/issues"
+  },
+  "homepage": "https://github.com/johnakhilomen/node-badger#readme",
+  "bin": {
+    "node-badger": "./bin/index.js",
+    "node-badger-mongoose-model": "./bin/generateMongooseModel.js"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.1.3",
+    "nyc": "^15.1.0",
+    "sinon": "^9.0.3"
+  },
+  "dependencies": {
+    "inquirer": "^7.3.3"
+  }
+}
