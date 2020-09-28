@@ -198,7 +198,7 @@ class CreateProjectStructure
       //this._answersAfterConfig = await setUpQuestionsAndAnswers.init();
         
       beginInstallation._packageJSONContent = this._packageJSON;
-      beginInstallation._packageJSONPath = `${this._rootDir}/package.json`;
+      //beginInstallation._packageJSONPath = `${this._rootDir}/package.json`;
       beginInstallation._localJSPath = `${this._rootDir}/local.js`;
       beginInstallation._readmePath = `${this._rootDir}/README.md`;
       beginInstallation._rootFolder = rootFolder
