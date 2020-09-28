@@ -1,1 +1,0 @@
-# /Users/johnakhilomen/Projects/node-badger/test/unit/fakeDir/projectRoot
