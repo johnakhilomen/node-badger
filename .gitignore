@@ -2,3 +2,4 @@ node_modules
 cmds
 bin
 coverage
+fakeDir
