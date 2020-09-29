@@ -1,38 +1,32 @@
 class FormatPackageJSONFile 
 {
-    _nullErr = new Error("empty object in function formatPackageJSONFile");
     _nodbTypeDefinedErr = new Error("no dbType defined");
      _nodependenciesPropDefined = new Error("Cannot read property \'dependencies\' of undefined");
      _answersAfterConfig;
      _packageJSON;
 
     init = (cb=()=>{}) => {
-    
-        if(Object.entries(this._answersAfterConfig).length == 0)
+        if(!this._answersAfterConfig)
         {
-            cb(this._nullErr);
+            cb(new Error("_answersAfterConfig is undefined : FormatPackageJSONFile"), null);
             return;
         }
-        return new Promise((resolve, reject)=>{
-          const {dbType} = this._answersAfterConfig;
-          if(!dbType)
-          {
-            cb(this._nodbTypeDefinedErr);
-            reject(this._nodbTypeDefinedErr);
+        if(Object.entries(this._answersAfterConfig).length == 0)
+        {
+            cb(new Error("_answersAfterConfig is an empty object: FormatPackageJSONFile"), null);
             return;
-          }
-          if(!this._packageJSON["dependencies"])
+        }
+        const {dbType} = this._answersAfterConfig;
+        return new Promise((resolve, reject)=>{
+          if(!this._packageJSON.hasOwnProperty("dependencies"))
           {
             cb(this._nodependenciesPropDefined);
             reject(this._nodependenciesPropDefined);
             return;
           }
-          //console.log(this._packageJSON["dependencies"]);
-          //console.log("line 216 : " + dbType);
           this._packageJSON["dependencies"]["express"] = "^4.17.1"; 
           this._packageJSON["dependencies"]["cors"] = "^2.8.5"; 
           this._packageJSON["dependencies"]["body-parser"] = "^1.19.0";
-          //console.log("line 220 : " + this._packageJSON["dependencies"]);
           switch (dbType) {
             case 'mongo':
               this._packageJSON["dependencies"]["mongodb"] = "^3.6.2"; 
@@ -46,8 +40,7 @@ class FormatPackageJSONFile
             default:
             break;
         }
-        console.log(this._packageJSON);
-        cb(true);
+        cb(null, true);
         resolve(true);
         })
         
