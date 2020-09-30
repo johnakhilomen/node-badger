@@ -1,11 +1,13 @@
 {
   "name": "node-badger",
-  "version": "1.1.5",
-  "description": "node-badger nodeJS Framework",
-  "main": "bin/index.js",
+  "version": "1.0.5",
+  "description": "node-badger a framework for building node applications.",
+  "main": "dist/main.js",
   "scripts": {
-    "test": "mocha --recursive",
-    "test-with-coverage": "nyc --reporter=html --reporter=text  -t coverage --report-dir coverage/summary mocha --recursive"
+    "start": "tsc && node dist/main.js",
+    "test": "mocha --recursive -r ts-node/register tests/**/*.test.ts",
+    "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
+    "test-coverage": "nyc -t coverage --report-dir coverage/summary npm run test"
   },
   "repository": {
     "type": "git",
@@ -14,18 +16,19 @@
   "keywords": [
     "nodejs",
     "mvc",
+    "mvc",
+    "framework",
+    "nodejs",
+    "framework",
+    "node-badger",
+    "node",
+    "framework",
     "node",
     "mvc",
     "nodejs",
     "mvc",
-    "framework",
-    "node",
-    "mvc",
-    "framework",
     "node-badger",
-    "node-badger",
-    "mvc",
-    "node-badger",
+    "MVC",
     "framework"
   ],
   "author": "John Akhilomen",
@@ -34,17 +37,14 @@
     "url": "https://github.com/johnakhilomen/node-badger/issues"
   },
   "homepage": "https://github.com/johnakhilomen/node-badger#readme",
-  "bin": {
-    "node-badger": "./bin/index.js",
-    "node-badger-mongoose-model": "./bin/generateMongooseModel.js"
-  },
   "devDependencies": {
+    "@types/chai": "^4.2.12",
+    "@types/mocha": "^8.0.3",
     "chai": "^4.2.0",
     "mocha": "^8.1.3",
     "nyc": "^15.1.0",
-    "sinon": "^9.0.3"
-  },
-  "dependencies": {
-    "inquirer": "^7.3.3"
+    "ts-node": "^9.0.0",
+    "tslint": "^6.1.3",
+    "typescript": "^4.0.3"
   }
 }

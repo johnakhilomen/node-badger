@@ -1,0 +1,1 @@
+{"parent":null,"pid":33697,"argv":["/usr/local/bin/node","/usr/local/bin/npm","run","test"],"execArgv":[],"cwd":"/Users/johnakhilomen/Projects/node-badger","time":1601423353793,"ppid":33696,"coverageFilename":"/Users/johnakhilomen/Projects/node-badger/.nyc_output/c75dd580-5f15-4ff4-904c-792d9f8fb048.json","externalId":"","uuid":"c75dd580-5f15-4ff4-904c-792d9f8fb048","files":[]}
