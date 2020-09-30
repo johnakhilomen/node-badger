@@ -44,14 +44,13 @@ describe('test WriteFile class', function() {
             assert.isNotNull(e);
             assert.isNull(r);
             assert.equal(e.message, "Writefile: Problem creating file");
-           // assert.isNull(e);
-           // assert.isTrue(r > 1);
+          
         };
         let writefileContent = new WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write"); 
         try
         {
             const result: any = await writefileContent.CreateWithContent(cb);
-            //assert.isTrue(result > 1);     
+              
         }
         catch(err)
         {
