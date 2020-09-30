@@ -34,7 +34,7 @@ describe('test FileContent class', function() {
    let iContent: IContent = {content: ""};
    const fileContent = new FileContent(iContent);
    let cb = (err: Error, res: IContent) =>{
-    console.log(err.message);
+    //console.log(err.message);
     assert.isNotNull(err);
     assert.equal(err.message, "FileContent : check that _content isn't null and class object was instantiated with the right arguement");
    }
