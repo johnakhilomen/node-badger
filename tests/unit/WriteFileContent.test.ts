@@ -72,7 +72,7 @@ describe('test WriteFile class', function() {
         fileExistSync_a.restore();
     });
 
-    it('test that we cannot write files because fs.existsSync is false and are getting error message', async function() {
+    it('test that we can write files because fs.existsSync is true and are not getting error message', async function() {
         let cb = async (e:Error, r:any) => {
            assert.isNull(e);
            assert.isTrue(r);

@@ -2,9 +2,9 @@
   "name": "node-badger",
   "version": "1.0.5",
   "description": "node-badger a framework for building node applications.",
-  "main": "dist/main.js",
+  "main": "dist/src/main.js",
   "scripts": {
-    "start": "tsc && node dist/main.js",
+    "build": "tsc && node dist/src/main.js",
     "test": "mocha --recursive -r ts-node/register tests/**/*.test.ts",
     "nyc-coverage": "nyc --reporter=html --reporter=text  -t coverage --report-dir coverage/summary mocha --recursive -r ts-node/register tests/**/*.test.ts",
     "test-coverage": "jest --coverage",
@@ -56,5 +56,9 @@
     "ts-node": "^9.0.0",
     "tslint": "^6.1.3",
     "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@types/inquirer": "^7.3.1",
+    "inquirer": "^7.3.3"
   }
 }
