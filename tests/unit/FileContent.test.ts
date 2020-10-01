@@ -1,4 +1,4 @@
-import chai from "chai";
+/*import chai from "chai";
 import { assert } from "chai";
 
 import { IContent } from "../../src/interfaces/IContent";
@@ -42,3 +42,4 @@ describe('test FileContent class', function() {
   })
   
   });
+  */

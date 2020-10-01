@@ -29,19 +29,19 @@ export class QuestionSets
             type: 'text',
             name: 'repository',
             message: `Git repository? 🗃`,
-            default: '',
+            default: 'https://github.com/',
         },
         {
             type: 'text',
             name: 'authorsName',
             message: `Enter author's name ? 🧐`,
-            default: '',
+            default: 'Jon Doe',
         },
         {
             type: 'text',
             name: 'license',
             message: 'License?',
-            default: '',
+            default: 'MIT',
         },
       ];
 

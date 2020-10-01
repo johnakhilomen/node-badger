@@ -6,12 +6,11 @@ export class PackageJson
 {
     private _packageJson: IPackageJson;
     private _dirPath : string;
-    //private _writefileContent: WriteFileContent;
     constructor(packageJson: IPackageJson, dirPath: string)
     {
+        console.log("dirPath"+dirPath)
         this._packageJson = packageJson;
         this._dirPath = dirPath;
-        //this._writefileContent = writefileContent;
     }
 
     Create = (cb = (e:any, r:boolean) => {})=> {

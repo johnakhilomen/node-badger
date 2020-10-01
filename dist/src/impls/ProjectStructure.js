@@ -15,12 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectStructure = void 0;
 const inquirer_1 = __importDefault(require("inquirer"));
 const Directory_1 = require("../impls/Directory");
+const PackageJson_1 = require("./PackageJson");
 class ProjectStructure {
     constructor(questionSets) {
+        this._rootSubdirs = [] = ["src", "test"];
+        this._srcSubDirs = [] = ["models", "views", "controllers", "routers", "config"];
         this.Setup = (cb) => __awaiter(this, void 0, void 0, function* () {
             let questionsandanswers;
             let currentDir = "";
             let directory;
+            let writefileContent;
             try {
                 if (this._questionSets.GetQuestionSet1().length < 1) {
                     cb(new Error("this._questionSets.GetQuestionSet1 is an empty array"), false);
@@ -34,11 +38,25 @@ class ProjectStructure {
                     if (e) {
                         throw e;
                     }
+                    console.log(r);
                 };
                 yield directory.CreateSubDirs(callback);
-                directory = new Directory_1.Directory(`${currentDir}/${rootFolder}`, ["src", "test"]);
-                //directory = new Directory(srcDir, ["models", "views", "controllers", "routers", "config"])
+                directory = new Directory_1.Directory(`${currentDir}/${rootFolder}`, this._rootSubdirs);
                 yield directory.CreateSubDirs(callback);
+                directory = new Directory_1.Directory(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
+                yield directory.CreateSubDirs(callback);
+                let iPackageJson = {
+                    rootFolder: rootFolder,
+                    version: version,
+                    description: description,
+                    entry: entry,
+                    repository: repository,
+                    authorsName: authorsName,
+                    license: license
+                };
+                let packageJson = new PackageJson_1.PackageJson(iPackageJson, `${currentDir}/${rootFolder}/package.json`);
+                packageJson.Create(callback);
+                //writefileContent = new WriteFileContent(`${currentDir}/${rootFolder}`, "Some text to write"); 
                 cb(null, true);
             }
             catch (err) {

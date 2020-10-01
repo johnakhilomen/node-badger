@@ -1,4 +1,4 @@
-import {ProjectStructure} from "../src//impls/ProjectStructure";
+import {ProjectStructure} from "../src/impls/ProjectStructure";
 import {QuestionSets} from "../src/params/QuestionSets";
 
 let questionSets = new QuestionSets();

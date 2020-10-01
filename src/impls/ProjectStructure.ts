@@ -3,6 +3,8 @@ import {QuestionSets} from "../params/QuestionSets";
 import {Directory} from "../impls/Directory";
 import { dir } from "console";
 import {WriteFileContent} from "../impls/WriteFileContent";
+import { PackageJson } from "./PackageJson";
+import { IPackageJson } from "../interfaces/IPackageJson";
 
 export class ProjectStructure
 {
@@ -35,12 +37,26 @@ export class ProjectStructure
                 {
                     throw e;
                 }
+                console.log(r);
             }
             await directory.CreateSubDirs(callback);
             directory = new Directory(`${currentDir}/${rootFolder}`, this._rootSubdirs);
             await directory.CreateSubDirs(callback);
             directory = new Directory(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
             await directory.CreateSubDirs(callback);
+
+            let iPackageJson: IPackageJson = {
+                rootFolder : rootFolder,
+                version : version, 
+                description: description,
+                entry: entry,
+                repository: repository,
+                authorsName: authorsName,
+                license: license
+            }
+          
+            let packageJson = new PackageJson(iPackageJson, `${currentDir}/${rootFolder}/package.json`);
+            packageJson.Create(callback);
             //writefileContent = new WriteFileContent(`${currentDir}/${rootFolder}`, "Some text to write"); 
             cb(null, true);
         }

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ProjectStructure_1 = require("../src//impls/ProjectStructure");
+const ProjectStructure_1 = require("../src/impls/ProjectStructure");
 const QuestionSets_1 = require("../src/params/QuestionSets");
 let questionSets = new QuestionSets_1.QuestionSets();
 let projectStructure = new ProjectStructure_1.ProjectStructure(questionSets);
