@@ -5,7 +5,7 @@ export class WriteFileContent
 {
    _sourcePath: string;
    _content : string;
-    constructor(sourcePath: string, content: string)
+    constructor(sourcePath: string, content: any)
     {
       this._sourcePath = sourcePath;
       this._content = content;
@@ -42,7 +42,7 @@ export class WriteFileContent
       return new Promise(async (resolve, reject)=> {
           try
           {
-          await fs.promises.writeFile(`${this._sourcePath}`, this._content, 'utf8'); 
+          await fs.promises.writeFile(`${this._sourcePath}`, JSON.stringify(this._content, null, 2), 'utf8'); 
           if(!fs.existsSync(`${this._sourcePath}`))     
           {
             const errStr : string = "Writefile: Problem creating file";

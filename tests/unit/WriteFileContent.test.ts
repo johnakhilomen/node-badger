@@ -5,7 +5,7 @@ import {WriteFileContent} from "../../src/impls/WriteFileContent";
 import * as sinon from "sinon";
 import fs from "fs";
 
-/*
+
 describe('test WriteFile class', function() {
    context("Test Error messages with WriteFile", ()=> {
 
@@ -94,4 +94,4 @@ describe('test WriteFile class', function() {
 
   
   });
-  */
+  
