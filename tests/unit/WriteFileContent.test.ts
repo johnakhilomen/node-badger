@@ -81,8 +81,8 @@ describe('test WriteFile class', function() {
         try
         {
             const result: any = await writefileContent.CreateWithContent(cb);
-            assert.isTrue(result);     
-        }
+            assert.isTrue(result);   
+         }
         catch(err)
         {
             //assert.equal(err.message, "Writefile: Problem creating file");
