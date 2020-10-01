@@ -2,7 +2,7 @@
   "name": "node-badger",
   "version": "1.0.5",
   "description": "node-badger a framework for building node applications.",
-  "main": "dist/src/main.js",
+  "main": "dist/bin/main.js",
   "scripts": {
     "build": "tsc && node dist/src/main.js",
     "test": "mocha --timeout 5000 --recursive -r ts-node/register tests/**/*.test.ts",
@@ -40,6 +40,9 @@
     "url": "https://github.com/johnakhilomen/node-badger/issues"
   },
   "homepage": "https://github.com/johnakhilomen/node-badger#readme",
+  "bin": {
+    "node-badger": "dist/bin/main.js"
+  },
   "devDependencies": {
     "@types/chai": "^4.2.12",
     "@types/jest": "^26.0.14",

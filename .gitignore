@@ -1,5 +1,5 @@
 node_modules
 cmds
-bin
+dist
 coverage
 fakeDir

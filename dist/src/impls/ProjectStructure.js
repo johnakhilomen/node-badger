@@ -14,17 +14,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectStructure = void 0;
 const inquirer_1 = __importDefault(require("inquirer"));
+const Directory_1 = require("../impls/Directory");
 class ProjectStructure {
     constructor(questionSets) {
         this.Setup = (cb) => __awaiter(this, void 0, void 0, function* () {
+            let questionsandanswers;
+            let currentDir = "";
+            let directory;
             try {
                 if (this._questionSets.GetQuestionSet1().length < 1) {
                     cb(new Error("this._questionSets.GetQuestionSet1 is an empty array"), false);
                     return;
                 }
-                let questionsandanswers = yield inquirer_1.default.prompt(this._questionSets.GetQuestionSet1());
+                questionsandanswers = yield inquirer_1.default.prompt(this._questionSets.GetQuestionSet1());
+                const { rootFolder, authorsName, version, description, entry, repository, license } = questionsandanswers;
+                currentDir = process.cwd();
+                directory = new Directory_1.Directory(currentDir, [rootFolder]);
+                let callback = (e, r) => {
+                    if (e) {
+                        throw e;
+                    }
+                };
+                yield directory.CreateSubDirs(callback);
+                directory = new Directory_1.Directory(`${currentDir}/${rootFolder}`, ["src", "test"]);
+                //directory = new Directory(srcDir, ["models", "views", "controllers", "routers", "config"])
+                yield directory.CreateSubDirs(callback);
+                cb(null, true);
             }
             catch (err) {
+                //console.log(err)
             }
         });
         this._questionSets = questionSets;
