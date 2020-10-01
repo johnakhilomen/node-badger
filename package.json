@@ -5,7 +5,7 @@
   "main": "dist/src/main.js",
   "scripts": {
     "build": "tsc && node dist/src/main.js",
-    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha --timeout 15000 --recursive -r ts-node/register tests/**/*.test.ts",
+    "test": "mocha --timeout 5000 --recursive -r ts-node/register tests/**/*.test.ts",
     "nyc-coverage": "nyc --reporter=html --reporter=text  -t coverage --report-dir coverage/summary mocha --recursive -r ts-node/register tests/**/*.test.ts",
     "test-coverage": "jest --coverage",
     "test:watch": "jest --coverage --watchAll",

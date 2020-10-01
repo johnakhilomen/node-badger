@@ -5,6 +5,7 @@ import {WriteFileContent} from "../../src/impls/WriteFileContent";
 import * as sinon from "sinon";
 import fs from "fs";
 
+/*
 describe('test WriteFile class', function() {
    context("Test Error messages with WriteFile", ()=> {
 
@@ -39,7 +40,7 @@ describe('test WriteFile class', function() {
         fileExistSync.restore();
     });
 
-    it('test that we cannot write files because fs.existsSync is false and are getting error message', async function() {
+    it('test that we cannot write files because fs.existsSync is false and are getting error message', async () => {
         let cb = async (e:Error, r:any) => {
             assert.isNotNull(e);
             assert.isNull(r);
@@ -72,7 +73,7 @@ describe('test WriteFile class', function() {
         fileExistSync_a.restore();
     });
 
-    it('test that we can write files because fs.existsSync is true and are not getting error message', async function() {
+    it('test that we can write files because fs.existsSync is true and are not getting error message', async ()=> {
         let cb = async (e:Error, r:any) => {
            assert.isNull(e);
            assert.isTrue(r);
@@ -93,3 +94,4 @@ describe('test WriteFile class', function() {
 
   
   });
+  */
