@@ -1,4 +1,3 @@
-import { rejects } from "assert";
 import fs from "fs";
 
 export class Directory 
@@ -38,6 +37,7 @@ export class Directory
                 console.log(err);
             }
         })
+        //console.log(fs.readdirSync(this._parentDir).length + ":" + this._parentDir);
         return new Promise((resolve, reject)=> {
             if(fs.readdirSync(this._parentDir).length < 1)
             {

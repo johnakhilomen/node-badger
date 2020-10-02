@@ -1,7 +1,6 @@
 import {IPackageJson} from "../interfaces/IPackageJson";
 import {WriteFileContent} from "../impls/WriteFileContent";
-import { write, writeFile } from "fs/promises";
-
+import {CallBack} from "../impls/CallBack";
 export class PackageJson 
 {
     private _packageJson: IPackageJson;
@@ -19,6 +18,7 @@ export class PackageJson
             cb(new Error("empty properties in _packageJson"), false);
             return;
         }
+        let callback: CallBack = new CallBack();
         let jsonObj = {
             "name" : this._packageJson.rootFolder,
             "version" : this._packageJson.version,
@@ -46,7 +46,7 @@ export class PackageJson
           }
           };
           let writefileContent = new WriteFileContent(this._dirPath, jsonObj); 
-          writefileContent.CreateWithContent(cb);
+          writefileContent.CreateWithContent(callback.Create());
           cb(null, true);
     }
 }

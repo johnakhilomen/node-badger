@@ -15,7 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectStructure = void 0;
 const inquirer_1 = __importDefault(require("inquirer"));
 const Directory_1 = require("../impls/Directory");
+const WriteFileContent_1 = require("../impls/WriteFileContent");
 const PackageJson_1 = require("./PackageJson");
+const LocalJSContent_1 = require("../params/LocalJSContent");
+const ServerJSContent_1 = require("../params/ServerJSContent");
 class ProjectStructure {
     constructor(questionSets) {
         this._rootSubdirs = [] = ["src", "test"];
@@ -34,17 +37,13 @@ class ProjectStructure {
                 const { rootFolder, authorsName, version, description, entry, repository, license } = questionsandanswers;
                 currentDir = process.cwd();
                 directory = new Directory_1.Directory(currentDir, [rootFolder]);
-                let callback = (e, r) => {
+                let callBackRootFolderCreation = (e, r) => {
                     if (e) {
-                        throw e;
+                        console.log(e.message);
                     }
                     console.log(r);
                 };
-                yield directory.CreateSubDirs(callback);
-                directory = new Directory_1.Directory(`${currentDir}/${rootFolder}`, this._rootSubdirs);
-                yield directory.CreateSubDirs(callback);
-                directory = new Directory_1.Directory(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
-                yield directory.CreateSubDirs(callback);
+                let createdRootFolder = yield directory.CreateSubDirs(callBackRootFolderCreation);
                 let iPackageJson = {
                     rootFolder: rootFolder,
                     version: version,
@@ -54,13 +53,45 @@ class ProjectStructure {
                     authorsName: authorsName,
                     license: license
                 };
+                if (!createdRootFolder) {
+                    console.log(`${currentDir} couldn't be created`);
+                }
                 let packageJson = new PackageJson_1.PackageJson(iPackageJson, `${currentDir}/${rootFolder}/package.json`);
-                packageJson.Create(callback);
-                //writefileContent = new WriteFileContent(`${currentDir}/${rootFolder}`, "Some text to write"); 
-                cb(null, true);
+                packageJson.Create(callBackRootFolderCreation);
+                let writefileContentLocal = new WriteFileContent_1.WriteFileContent(`${currentDir}/${rootFolder}/local.js`, LocalJSContent_1.localJS);
+                writefileContentLocal.CreateWithContent(callBackRootFolderCreation);
+                let callBackSrcFolderCreation = (e, r) => {
+                    if (e) {
+                        console.log(e);
+                    }
+                    console.log(r);
+                };
+                directory = new Directory_1.Directory(`${currentDir}/${rootFolder}`, this._rootSubdirs);
+                let createdSrcFolder = yield directory.CreateSubDirs(callBackSrcFolderCreation);
+                if (!createdSrcFolder) {
+                    console.log(`${this._rootSubdirs} couldn't be created`);
+                }
+                let writefileContentServer = new WriteFileContent_1.WriteFileContent(`${currentDir}/${rootFolder}/src/server.js`, ServerJSContent_1.serverJS);
+                writefileContentServer.CreateWithContent((err, res) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log(res);
+                });
+                let cb1 = (e, r) => {
+                    if (e) {
+                        console.log(e);
+                    }
+                    console.log(r);
+                };
+                directory = new Directory_1.Directory(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
+                yield directory.CreateSubDirs(cb1);
+                /*
+                //writefileContent = new WriteFileContent(`${currentDir}/${rootFolder}`, "Some text to write");
+                cb(null, true);*/
             }
             catch (err) {
-                //console.log(err)
+                console.log(err);
             }
         });
         this._questionSets = questionSets;
