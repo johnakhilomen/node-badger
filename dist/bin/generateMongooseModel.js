@@ -32,8 +32,7 @@
     //console.log(modelObj);
     
     
-    let filecontent = `
-    const mongoose = require("mongoose");
+    let filecontent = `const mongoose = require("mongoose");
     const ${modelName}Schema = mongoose.Schema({\n`;
     
     

@@ -89,6 +89,17 @@ export class ProjectStructure
                 case 'mongo':
                   packageJson._jsonObj["dependencies"]["mongodb"] = "^3.6.2"; 
                   packageJson._jsonObj["dependencies"]["mongoose"] = "^5.10.5"; 
+                  let configMongo : string = `const Params = require('./params');
+                  exports.MongoConf = ( (SERVER, mongoose) => {
+                    mongoose.Promise =  global.Promise;
+                    mongoose.connect(Params.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+                        .then(() => console.log("mongoDB connected"))
+                        .catch(err => console.log(err));
+                       
+                });
+                  `;
+                  let writefileContentServer:WriteFileContent = new WriteFileContent(`${currentDir}/${rootFolder}/src/config/mongoConf.js`, configMongo, false); 
+                  writefileContentServer.CreateWithContent(this.CallBack());
                 break;
                 case 'postgres':
                     packageJson._jsonObj["dependencies"]["pg"] = "^8.3.3"; 
@@ -103,7 +114,8 @@ export class ProjectStructure
 
              //Set up Configuration File
             const configJSON : any = {
-                PORT : 8000
+                PORT : 8000,
+                MONGO_URI: "mongodb://localhost:27017/test?readPreference=primary&appname=MongoDB%20Compass&ssl=false",
             }
             const configJS = `
                 module.exports = ${JSON.stringify(configJSON, null, 2)};

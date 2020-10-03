@@ -4,9 +4,13 @@ export class CallBack
     Create : any = (e:Error, r:boolean) => {
         if(e)
         {
-            console.log(e);
+            console.log(e.message);
         }
-        console.log(r);
+        if(r)
+        {
+            //console.log(r);
+        }
+       
     }
 
 }
