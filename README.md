@@ -1,6 +1,6 @@
 # node-badger
 
-node-badger is a node framework which creates a node-server project upon the MVC design pattern. The framework would setup you node-server for both dev and production. Once project setup is complete you can run your server.
+node-badger is a node framework which creates a node-server project upon the MVC design pattern. The framework would setup you node application for both dev and production. Once project setup is complete you can run your server.
 
 [![Build Status](https://api.travis-ci.org/johnakhilomen/node-badger.svg?branch=master)](https://travis-ci.org/github/johnakhilomen/node-badger)
 
@@ -53,7 +53,7 @@ npm run server
 For now, node-badger supports model generations with mongoose. To create models for your project, you run the command 
 node-badger-mongoose-model with (-m) to specify model name, and (-a) for model attributes:
 
-```
+```bash
 node-badger-mongoose-model -m userModel -a "firstname:string,lastname:string,emailaddress:string"
 
 ```
