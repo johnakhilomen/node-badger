@@ -24,8 +24,14 @@ describe("Test suite for PackageJson", () => {
                 chai_1.assert.isNotNull(e);
                 chai_1.assert.equal(e.message, "empty properties in _packageJson");
             };
-            packageJson.Create(cb);
         });
+        /*it("should test CallBack class with a spy on Create", ()=> {
+            let cback : CallBack = new CallBack();
+            let cbObjSpy : any = sinon.spy(cback, "Create");
+            cback.Create(new Error("Error"), false);
+            assert.isTrue(cbObjSpy.calledOnce);
+            
+        })*/
     });
     context("To test when NOT initialized with empty _packageJson", () => {
         let packageJson;

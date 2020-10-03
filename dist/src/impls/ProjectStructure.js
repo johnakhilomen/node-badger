@@ -24,13 +24,6 @@ class ProjectStructure {
     constructor(questionSets) {
         this._rootSubdirs = [] = ["src", "test"];
         this._srcSubDirs = [] = ["models", "views", "controllers", "routers", "config"];
-        /*CallBack: any = (e:Error, r:boolean) => {
-            if(e)
-            {
-                console.log(e.message);
-            }
-            console.log(r);
-        }*/
         this.CallBack = () => {
             let callback = new CallBack_1.CallBack();
             return callback.Create();
@@ -106,13 +99,15 @@ class ProjectStructure {
                 setTimeout(() => {
                     let executeCmd = new ExecuteCmd_1.ExecuteCmd(`npm install -C ${rootFolder}`);
                     executeCmd.on("donewithnoerrors", () => {
-                        let executeCmdUpdate = new ExecuteCmd_1.ExecuteCmd(`npm update -C ${rootFolder}`);
-                        executeCmdUpdate.on("donewithnoerrors", () => {
-                            let executeCmdFund = new ExecuteCmd_1.ExecuteCmd(`npm fund -C ${rootFolder}`);
-                            executeCmdFund.on("donewithnoerrors", () => {
-                                console.log('Congratulations 🎉🎉🎉! Project setup is complete! \n Happy Hacking! 🚀');
+                        setTimeout(() => {
+                            let executeCmdUpdate = new ExecuteCmd_1.ExecuteCmd(`npm update -C ${rootFolder}`);
+                            executeCmdUpdate.on("donewithnoerrors", () => {
+                                let executeCmdFund = new ExecuteCmd_1.ExecuteCmd(`npm fund -C ${rootFolder}`);
+                                executeCmdFund.on("donewithnoerrors", () => {
+                                    console.log('Congratulations 🎉🎉🎉! Project setup is complete! \n Happy Hacking! 🚀');
+                                });
                             });
-                        });
+                        }, 200);
                         //console.log('Congratulations 🎉🎉🎉! Project setup is complete! \n Happy Hacking! 🚀');
                     });
                 }, 200);

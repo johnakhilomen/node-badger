@@ -41,7 +41,8 @@
   },
   "homepage": "https://github.com/johnakhilomen/node-badger#readme",
   "bin": {
-    "node-badger": "dist/bin/main.js"
+    "node-badger": "dist/bin/main.js",
+    "node-badger-mongoose-model": "/dist/bin/generateMongooseModel.js"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",
