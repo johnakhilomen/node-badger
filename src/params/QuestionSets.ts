@@ -45,7 +45,7 @@ export class QuestionSets
         },
       ];
 
-      private q2 : {type: string, name: string, message:string, choices: string[]} = {
+      private q2 : any = {
         type: 'list',
         name: 'dbType',
         message: 'Use the up and arrow key to select your database type? 📦',

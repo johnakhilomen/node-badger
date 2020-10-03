@@ -5,21 +5,14 @@ export class PackageJson
 {
     private _packageJson: IPackageJson;
     private _dirPath : string;
+    public _jsonObj : any;
     constructor(packageJson: IPackageJson, dirPath: string)
     {
-        console.log("dirPath"+dirPath)
+        //console.log("dirPath"+dirPath)
         this._packageJson = packageJson;
         this._dirPath = dirPath;
-    }
 
-    Create = (cb = (e:any, r:boolean) => {})=> {
-        if(Object.values(this._packageJson).filter(x=>x=="").length > 0)
-        {
-            cb(new Error("empty properties in _packageJson"), false);
-            return;
-        }
-        let callback: CallBack = new CallBack();
-        let jsonObj = {
+        this._jsonObj = {
             "name" : this._packageJson.rootFolder,
             "version" : this._packageJson.version,
             "description" : this._packageJson.description,
@@ -36,7 +29,9 @@ export class PackageJson
           "author" : this._packageJson.authorsName,
           "license" : this._packageJson.license,
           "dependencies": {
-            
+            "express" : "^4.17.1", 
+            "cors" : "^2.8.5", 
+            "body-parser" : "^1.19.0"
           },
           "devDependencies": {
             "nodemon": "^2.0.4",
@@ -45,8 +40,18 @@ export class PackageJson
             "chai": "^4.2.0"
           }
           };
-          let writefileContent = new WriteFileContent(this._dirPath, jsonObj); 
-          writefileContent.CreateWithContent(callback.Create());
-          cb(null, true);
+        
+    }
+
+    Create = (cb = (e:any, r:boolean) => {})=> {
+        if(Object.values(this._packageJson).filter(x=>x=="").length > 0)
+        {
+            cb(new Error("empty properties in _packageJson"), false);
+            return;
+        }
+        let callback: CallBack = new CallBack();
+        let writefileContent = new WriteFileContent(this._dirPath, this._jsonObj, true); 
+        writefileContent.CreateWithContent(callback.Create());
+        cb(null, true);
     }
 }

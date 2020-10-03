@@ -1,5 +1,5 @@
 node_modules
 cmds
-dist
+src
 coverage
 fakeDir

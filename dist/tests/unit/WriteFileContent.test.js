@@ -42,7 +42,7 @@ describe('test WriteFile class', function () {
                 chai_1.assert.equal(e.message, "sourcePath string is empty");
                 chai_1.assert.isNull(r);
             };
-            let writefileContent = new WriteFileContent_1.WriteFileContent("", "some content");
+            let writefileContent = new WriteFileContent_1.WriteFileContent("", "some content", false);
             writefileContent.CreateWithContent(cb);
         });
         it('test that we can get an error message when content is empty', function () {
@@ -50,7 +50,7 @@ describe('test WriteFile class', function () {
                 chai_1.assert.equal(e.message, "content string is empty");
                 chai_1.assert.isNull(r);
             };
-            let writefileContent = new WriteFileContent_1.WriteFileContent("somefilePath", "");
+            let writefileContent = new WriteFileContent_1.WriteFileContent("somefilePath", "", false);
             writefileContent.CreateWithContent(cb);
         });
     });
@@ -68,7 +68,7 @@ describe('test WriteFile class', function () {
                 chai_1.assert.isNull(r);
                 chai_1.assert.equal(e.message, "Writefile: Problem creating file");
             });
-            let writefileContent = new WriteFileContent_1.WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write");
+            let writefileContent = new WriteFileContent_1.WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write", false);
             try {
                 const result = yield writefileContent.CreateWithContent(cb);
             }
@@ -90,7 +90,7 @@ describe('test WriteFile class', function () {
                 chai_1.assert.isNull(e);
                 chai_1.assert.isTrue(r);
             });
-            let writefileContent = new WriteFileContent_1.WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write");
+            let writefileContent = new WriteFileContent_1.WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write", false);
             try {
                 const result = yield writefileContent.CreateWithContent(cb);
                 chai_1.assert.isTrue(result);

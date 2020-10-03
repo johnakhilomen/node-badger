@@ -16,7 +16,7 @@ exports.WriteFileContent = void 0;
 const CreateError_1 = require("./CreateError");
 const fs_1 = __importDefault(require("fs"));
 class WriteFileContent {
-    constructor(sourcePath, content) {
+    constructor(sourcePath, content, jsonFile) {
         this.CreateWithContent = (cb) => {
             if (!this.CheckIfEmpty(false)) {
                 cb(new CreateError_1.CreateError("sourcePath string is empty").getError(), null);
@@ -28,7 +28,14 @@ class WriteFileContent {
             }
             return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
                 try {
-                    yield fs_1.default.promises.writeFile(`${this._sourcePath}`, JSON.stringify(this._content, null, 2), 'utf8');
+                    switch (this._jsonFile) {
+                        case true:
+                            yield fs_1.default.promises.writeFile(`${this._sourcePath}`, JSON.stringify(this._content, null, 2), 'utf8');
+                            break;
+                        default:
+                            yield fs_1.default.promises.writeFile(`${this._sourcePath}`, this._content, 'utf8');
+                            break;
+                    }
                     if (!fs_1.default.existsSync(`${this._sourcePath}`)) {
                         const errStr = "Writefile: Problem creating file";
                         cb(new CreateError_1.CreateError(errStr).getError(), null);
@@ -45,6 +52,7 @@ class WriteFileContent {
         };
         this._sourcePath = sourcePath;
         this._content = content;
+        this._jsonFile = jsonFile;
     }
     CheckIfEmpty(flagContentToTrue) {
         if (!flagContentToTrue) {

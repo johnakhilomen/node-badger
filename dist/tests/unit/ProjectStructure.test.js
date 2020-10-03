@@ -36,8 +36,6 @@ describe("Test suite for Project Structure", () => {
     context("Test for Project Structure when GetQuestionSet1 or GetQuestionSet2 isn't null", () => {
         let projectStructure;
         let questionSets;
-        /*let questionSetStub1: any;
-        let questionSetStub2: any;*/
         let promptQuestionsStubs;
         before(() => {
             questionSets = new QuestionSets_1.QuestionSets();
@@ -59,9 +57,30 @@ describe("Test suite for Project Structure", () => {
         it("test that callback returns true", () => {
             let cb = (e, r) => {
                 chai_1.assert.isTrue(r);
+                let spyOnCallBack = sinon_1.default.spy(projectStructure, "CallBack");
+                chai_1.assert.isTrue(spyOnCallBack.calledOnce);
             };
             projectStructure.Setup(cb);
         });
     });
+    /*context("Test for Project Structure when stubing CallBack func", ()=> {
+        let projectStructure : ProjectStructure;
+        let callbackfuncStub: any;
+    before(()=>{
+        callbackfuncStub = sinon.(projectStructure, "CallBack");
+    });
+    after(()=>{
+        promptQuestionsStubs.restore();
+    });
+    
+    it("test that callback returns true", ()=>{
+        let cb : any = (e: Error, r: boolean) => {
+           assert.isTrue(r);
+        }
+        projectStructure.Setup(cb);
+
+    });
+    
+    })*/
 });
 //# sourceMappingURL=ProjectStructure.test.js.map

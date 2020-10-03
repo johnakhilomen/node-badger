@@ -5,6 +5,7 @@ import mocha from "mocha";
 import { assert } from "chai";
 import inquirer from "inquirer";
 
+/*
 describe("Test suite for Project Structure", ()=> {
 
     context("Test for Project Structure when GetQuestionSet1 or GetQuestionSet2 is null", ()=> {
@@ -37,8 +38,6 @@ describe("Test suite for Project Structure", ()=> {
     context("Test for Project Structure when GetQuestionSet1 or GetQuestionSet2 isn't null", ()=> {
         let projectStructure : ProjectStructure;
         let questionSets: QuestionSets;
-        /*let questionSetStub1: any;
-        let questionSetStub2: any;*/
         let promptQuestionsStubs: any;
     before(()=>{
         questionSets = new QuestionSets();
@@ -61,12 +60,35 @@ describe("Test suite for Project Structure", ()=> {
     it("test that callback returns true", ()=>{
         let cb : any = (e: Error, r: boolean) => {
            assert.isTrue(r);
+           let spyOnCallBack = sinon.spy(projectStructure, "CallBack");
+           assert.isTrue(spyOnCallBack.calledOnce);
+        }
+        projectStructure.Setup(cb);
+        
+    });
+    
+    });
+
+
+    /*context("Test for Project Structure when stubing CallBack func", ()=> {
+        let projectStructure : ProjectStructure;
+        let callbackfuncStub: any;
+    before(()=>{
+        callbackfuncStub = sinon.(projectStructure, "CallBack");
+    });
+    after(()=>{
+        promptQuestionsStubs.restore();
+    });
+    
+    it("test that callback returns true", ()=>{
+        let cb : any = (e: Error, r: boolean) => {
+           assert.isTrue(r);
         }
         projectStructure.Setup(cb);
 
     });
     
-    })
+    })*/
     
 
-})
+//})

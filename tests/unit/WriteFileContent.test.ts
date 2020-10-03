@@ -14,7 +14,7 @@ describe('test WriteFile class', function() {
             assert.equal(e.message, "sourcePath string is empty");
             assert.isNull(r);
         };
-        let writefileContent = new WriteFileContent("", "some content"); 
+        let writefileContent = new WriteFileContent("", "some content", false); 
         writefileContent.CreateWithContent(cb);
       });
     
@@ -23,7 +23,7 @@ describe('test WriteFile class', function() {
             assert.equal(e.message, "content string is empty");
             assert.isNull(r);
         };
-        let writefileContent = new WriteFileContent("somefilePath", ""); 
+        let writefileContent = new WriteFileContent("somefilePath", "", false); 
         writefileContent.CreateWithContent(cb);
       });
 
@@ -47,7 +47,7 @@ describe('test WriteFile class', function() {
             assert.equal(e.message, "Writefile: Problem creating file");
           
         };
-        let writefileContent = new WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write"); 
+        let writefileContent = new WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write", false); 
         try
         {
             const result: any = await writefileContent.CreateWithContent(cb);
@@ -78,7 +78,7 @@ describe('test WriteFile class', function() {
            assert.isNull(e);
            assert.isTrue(r);
         };
-        let writefileContent = new WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write"); 
+        let writefileContent = new WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write", false); 
         try
         {
             const result: any = await writefileContent.CreateWithContent(cb);

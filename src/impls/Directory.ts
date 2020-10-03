@@ -30,11 +30,11 @@ export class Directory
             try
             {
                 let subdirToCreate = `${this._parentDir}/${dir}`;
-                await fs.promises.mkdir(subdirToCreate);
+                await fs.promises.mkdir(subdirToCreate, {recursive: true});
             }
             catch(err)
             {
-                console.log(err);
+                //console.log(err);
             }
         })
         //console.log(fs.readdirSync(this._parentDir).length + ":" + this._parentDir);
