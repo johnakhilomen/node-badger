@@ -1,7 +1,7 @@
 {
-  "name": "projecttest",
+  "name": "fakeDir",
   "version": "1.0.0",
-  "description": "Some description",
+  "description": "A fake project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,16 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+repo"
+    "url": "git+http://"
   },
   "author": "Jon Doe",
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
     "cors": "^2.8.5",
-    "body-parser": "^1.19.0",
-    "mongodb": "^3.6.2",
-    "mongoose": "^5.10.5"
+    "body-parser": "^1.19.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4",
