@@ -48,6 +48,40 @@ Or
 npm run server
 ```
 
+## Creating models for your project
+
+For now, node-badger supports model generations with mongoose. To create models for your project, you run the command 
+node-badger-mongoose-model with (-m) to specify model name, and (-a) for model attributes:
+
+```
+node-badger-mongoose-model -m userModel -a "firstname:string,lastname:string,emailaddress:string"
+
+```
+
+The above command will generate a mongoose model that looks like this:
+
+```
+const mongoose = require("mongoose");
+const userModelSchema = mongoose.Schema({
+firstname : {
+            type : string,
+            required: "firstname is required",
+            },
+lastname : {
+            type : string,
+            required: "lastname is required",
+            },
+emailaddress : {
+            type : string,
+            required: "emailaddress is required",
+            },
+}, {collection:"usermodel", timestamps : true});
+    const userModel = ConnectMongo.model("userModel", userModelSchema);
+    module.exports = {userModel};
+
+```
+when specifying a model name, it is necessary to include "Model" in your model name, looking like this "userModel".
+
 Go to your browser and access http://localhost:8000/. You should see; It works!
 
 ## Contributing
