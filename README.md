@@ -48,14 +48,17 @@ Or
 npm run server
 ```
 
+Go to your browser and access http://localhost:8000/. You should see; It works!
+
+## Selecting database type
+During project setup, you can specify which database you'd be using for your project. 
+
 ## Creating models for your project
 
-For now, node-badger supports model generations with mongoose. To create models for your project, you run the command 
-node-badger-mongoose-model with (-m) to specify model name, and (-a) for model attributes:
+Models can be generated for your project. For now, node-badger supports model generations with mongoose. To create models for your project, you run the command node-badger-mongoose-model with (-m) to specify model name, and (-a) for model attributes:
 
 ```bash
 node-badger-mongoose-model -m userModel -a "firstname:string,lastname:string,emailaddress:string"
-
 ```
 
 The above command will generate a mongoose model that looks like this:
@@ -81,8 +84,6 @@ emailaddress : {
 
 ```
 when specifying a model name, it is necessary to include "Model" in your model name, looking like this "userModel".
-
-Go to your browser and access http://localhost:8000/. You should see; It works!
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
