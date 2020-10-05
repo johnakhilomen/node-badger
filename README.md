@@ -72,12 +72,12 @@ Go to your browser and access http://localhost:8000/. You should see; It works!
 ## Selecting database type
 During project setup, you can specify which database you'd be using for your project. 
 
-## Creating models for your project
+## Creating models and controllers for your project
 
-Models can be generated for your project. For now, node-badger supports model generations with mongoose. To create models for your project, you run the command node-badger-mongoose-model with (-m) to specify model name, and (-a) for model attributes:
+Models and Controllers can be generated for your project. For now, node-badger supports model generations with mongoose. To create models for your project, you run the command node-badger-mongoose-model with (-m) to specify model name, and (-a) for model attributes:
 
 ```bash
-node-badger-mongoose-model -m userModel -a "firstname:string,lastname:string,emailaddress:string"
+node-badger-mongoose-model -m userModel -a "firstname:String,lastname:String,emailaddress:String"
 ```
 
 The above command will generate a mongoose model that looks like this:
@@ -86,15 +86,15 @@ The above command will generate a mongoose model that looks like this:
 const mongoose = require("mongoose");
 const userModelSchema = mongoose.Schema({
 firstname : {
-            type : string,
+            type : String,
             required: "firstname is required",
             },
 lastname : {
-            type : string,
+            type : String,
             required: "lastname is required",
             },
 emailaddress : {
-            type : string,
+            type : String,
             required: "emailaddress is required",
             },
 }, {collection:"usermodel", timestamps : true});
@@ -102,7 +102,55 @@ emailaddress : {
     module.exports = {userModel};
 
 ```
-when specifying a model name, it is necessary to include "Model" in your model name, looking like this "userModel".
+
+And a controller that looks like this:
+
+```
+  const UserModel = require('../../src/models/UserModel');
+
+// Display list of all users.
+exports.User_list = function(req, res) {
+    res.send('NOT IMPLEMENTED: User list');
+};
+
+// Display detail page for a specific user.
+exports.User_detail = function(req, res) {
+    res.send('NOT IMPLEMENTED: User detail: ' + req.params.id);
+};
+
+// Display user create form on GET.
+exports.User_create_get = function(req, res) {
+    res.send('NOT IMPLEMENTED: User create GET');
+};
+
+// Handle user create on POST.
+exports.User_create_post = function(req, res) {
+    res.send('NOT IMPLEMENTED: User create POST');
+};
+
+// Display user delete form on GET.
+exports.User_delete_get = function(req, res) {
+    res.send('NOT IMPLEMENTED: User delete GET');
+};
+
+// Handle book delete on POST.
+exports.User_delete_post = function(req, res) {
+    res.send('NOT IMPLEMENTED: User delete POST');
+};
+
+// Display user update form on GET.
+exports.User_update_get = function(req, res) {
+    user.send('NOT IMPLEMENTED: User update GET');
+};
+
+// Handle user update on POST.
+exports.User_update_post = function(req, res) {
+    res.send('NOT IMPLEMENTED: User update POST');
+};
+
+```
+
+when specifying a model name, it is necessary to include "Model" in your model name, looking like this "UserModel". And make sure your data types are in the correctly written : String, [], {}, Number.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
