@@ -42,10 +42,29 @@ Once the project setup is complete, you can run your server:
 ```bash
 npm run start
 ```
+And you should see this log on your screen:
+
+```
+Listening on: port 8000
+mongoDB connected
+```
+
 Or
 
 ```bash
 npm run server
+```
+
+And you should see this log on your terminal:
+
+```
+[nodemon] 2.0.4
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node local.js`
+Listening on: port 8000
+mongoDB connected
 ```
 
 Go to your browser and access http://localhost:8000/. You should see; It works!

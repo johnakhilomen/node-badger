@@ -132,7 +132,7 @@ export class ProjectStructure
                         executeCmdUpdate.on("donewithnoerrors", ()=>{
                         let executeCmdFund = new ExecuteCmd(`npm fund -C ${rootFolder}`);
                         executeCmdFund.on("donewithnoerrors", ()=> {
-                                console.log('Congratulations 🎉🎉🎉! Project setup is complete! \n Happy Hacking! 🚀');
+                                console.log('Congratulations @John Akhilomen 🎉🎉🎉! Project setup is complete! \n Happy Hacking 🚀');
                         })
                         });
                     }, 200);                 
