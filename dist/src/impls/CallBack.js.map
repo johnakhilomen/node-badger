@@ -1,0 +1,1 @@
+{"version":3,"file":"CallBack.js","sourceRoot":"","sources":["../../../src/impls/CallBack.ts"],"names":[],"mappings":";;;AAAA,MAAa,QAAQ;IAArB;QAGI,WAAM,GAAS,CAAC,CAAO,EAAE,CAAS,EAAE,EAAE;YAClC,IAAG,CAAC,EACJ;gBACI,OAAO,CAAC,GAAG,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC;aAC1B;YACD,IAAG,CAAC,EACJ;gBACI,iBAAiB;aACpB;QAEL,CAAC,CAAA;IAEL,CAAC;CAAA;AAfD,4BAeC"}
