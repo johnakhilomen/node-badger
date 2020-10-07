@@ -47,7 +47,6 @@ export class Directory
             }
             resolve(true);
             cb(null, true);
-
         });
         
       }
