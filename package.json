@@ -34,7 +34,7 @@
     "MVC",
     "framework"
   ],
-  "author": "John Akhilomen",
+  "author": "John Akhilomen <me@johnakhilomen.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/johnakhilomen/node-badger/issues"
