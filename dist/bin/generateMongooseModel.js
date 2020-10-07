@@ -36,102 +36,22 @@ const {ModelGenerator} = require("../src/impls/ModelGenerator");
     
     let modelGenerator = new ModelGenerator(`${currentDir}/src/models/${modelName}.js`, modelObj, modelName, modelNameWithoutModel);
     modelGenerator.writeToController();
-    /*let filecontent = `const mongoose = require("mongoose");
-const ${modelName}Schema = mongoose.Schema({\n`;
-    
-    
-    Object.entries(modelObj).forEach(([key, value])=>{
-        if(value == "Array")
-        {
-            value = "[]";    
-        }
-        else if (value == "Object")
-        {
-            value = "{}";
-        }
-        switch(key)
-        {
-            case "Fullname" || "Firstname" || "Lastname":
-                filecontent += `${key} : {
-                type : ${value},
-                required: "${key} is required",
-                minlength: 6, 
-                maxlength: 100,
-                unique: false,
-                },\n`;
-                break;
-            case "Emailaddress":
-                filecontent += `${key}: {
-                type : ${value},
-                required: "${key} is required",
-                minlength: 6,
-                maxlength: 100,
-                lowercase: true,
-                trim: true,
-                unique: true,
-                match: ${new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)}
-                },\n`;
-                break;
-            case "Password":
-                filecontent += `${key} : {
-                type : ${value},
-                required: "${key} is required",
-                minlength: 6,
-                maxlength: 100,
-                },\n`;
-                break;
-            case "City" || "Country" || "State":
-                filecontent += `${key} : {
-                type : ${value},
-                required: "${key} is required",
-                maxlength: 30,
-                },\n`;
-                break;
-            case "z" : 
-            filecontent += `${key} : {
-                type : ${value},
-                required: "${key} is required",
-                match: ${new RegExp(/^(\d{5})?$/)}
-                },\n`;
-                break;      
-            default:
-                filecontent += `${key} : {
-                type : ${value},
-                required: "${key} is required",
-                },\n`;
-                break;
-                
-        }
-        
-    });
-        
-    filecontent+=`}, {collection:"${modelName.toLowerCase()}", timestamps : true});
-    const ${modelName} = mongoose.model("${modelName}", ${modelName}Schema);
-    module.exports = {${modelName}};`;
-    
-    let currentDir = process.cwd();
-    const srcvmodelsDirname = path.dirname(`${currentDir}/src/models`);
-        if (!fs.existsSync(srcvmodelsDirname)) {
-            throw new Error ("models folder doesn't exist.");
-        }
-    await fs.promises.writeFile(`${currentDir}/src/models/${modelName}.js`, `${filecontent}`, 'utf8');*/
-      
    
-let controllerGenerator = new ControllerGenerator(`${currentDir}/src/controllers/${modelNameWithoutModel}Controller.js`, modelName, modelNameWithoutModel);
-controllerGenerator.writeToController();
+    let controllerGenerator = new ControllerGenerator(`${currentDir}/src/controllers/${modelNameWithoutModel}Controller.js`, modelName, modelNameWithoutModel);
+    controllerGenerator.writeToController();
    
-let routerGenerator = new RouterGenerator(`${currentDir}/src/routers/${modelNameWithoutModel}Router.js`, modelName, modelNameWithoutModel);
-routerGenerator.writeToRouter();
+    let routerGenerator = new RouterGenerator(`${currentDir}/src/routers/${modelNameWithoutModel}Router.js`, modelName, modelNameWithoutModel);
+    routerGenerator.writeToRouter();
 
-var data = fs.readFileSync(`${currentDir}/src/server.js`).toString().split("\n");
-data.splice((data.length-2), 0, `
-const ${modelNameWithoutModel}_router = require('./routers/${modelNameWithoutModel}Router');
-SERVER.use('/${modelNameWithoutModel}', Test_router);
-` );
-var text = data.join("\n");
+    let data = fs.readFileSync(`${currentDir}/src/server.js`).toString().split("\n");
+    data.splice((data.length-2), 0, `
+    const ${modelNameWithoutModel}_router = require('./routers/${modelNameWithoutModel}Router');
+    SERVER.use('/${modelNameWithoutModel}', Test_router);
+    ` );
+    let text = data.join("\n");
 
-fs.writeFile(`${currentDir}/src/server.js`, text, function (err) {
-  if (err) return err;
+    fs.writeFile(`${currentDir}/src/server.js`, text, function (err) {
+    if (err) return err;
 });
 
 
