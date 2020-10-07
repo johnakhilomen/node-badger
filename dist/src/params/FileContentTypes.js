@@ -11,6 +11,7 @@ class FileContentTypes {
             console.log("Listening on: port "+port); 
         });`;
         this.getServerJS = () => `const express = require("express");
+        exports.router = express.Router();
         const mongoose = require("mongoose");
         const bodyparser = require("body-parser");
         const cors = require("cors");

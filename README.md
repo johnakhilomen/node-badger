@@ -1,6 +1,6 @@
 # node-badger
 
-node-badger is a node framework which creates a node-server project upon the MVC design pattern. The framework would setup you node application for both dev and production. Once project setup is complete you can run your server.
+node-badger is a node framework which creates a node-server project upon the MVC design pattern. The framework would setup your node application for both dev and production. Once project setup is complete you can run your server.
 
 [![Build Status](https://api.travis-ci.org/johnakhilomen/node-badger.svg?branch=master)](https://travis-ci.org/github/johnakhilomen/node-badger)
 
@@ -12,12 +12,12 @@ npm install -g node-badger
 
 ## Usage
 
-On your terminal just run the command to create a node-server project
+On your terminal run the command to create a node-server project
 
 ```bash
 node-badger
 ```
-It will create a directory, including the files you need to kick off your next node-server project. Inside that directory, it will create the initial project structure and install the transitive dependencies:
+It will create a directory structure, including the files you need to kick off your next node-server project. Inside that directory, it will create the initial project structure and install the transitive dependencies:
 
 ```
 yourprojectname
@@ -70,14 +70,14 @@ mongoDB connected
 Go to your browser and access http://localhost:8000/. You should see; It works!
 
 ## Selecting database type
-During project setup, you can specify which database you'd be using for your project. 
+During your project setup, you can specify which database you'd be using for your project. 
 
-## Creating models and controllers for your project
+## Creating models, routers and controllers for your project
 
-Models and Controllers can be generated for your project. For now, node-badger supports model generations with mongoose. To create models for your project, you run the command node-badger-mongoose-model with (-m) to specify model name, and (-a) for model attributes:
+Models, Routers and Controllers can be generated for your project. For now, node-badger supports model generations with mongoose. To create models for your project, you run the command node-badger-mongoose-model with (-m) to specify model name, and (-a) for model attributes:
 
 ```bash
-node-badger-mongoose-model -m userModel -a "firstname:String,lastname:String,emailaddress:String"
+node-badger-mongoose-model -m UserModel -a "firstname:String,lastname:String,emailaddress:String"
 ```
 
 The above command will generate a mongoose model that looks like this:
@@ -103,51 +103,88 @@ emailaddress : {
 
 ```
 
-And a controller that looks like this:
+A controller that looks like this:
 
 ```
-  const UserModel = require('../../src/models/UserModel');
-
-// Display list of all users.
+const UserModel = require('../../src/models/UserModel');
+        
+// Display a list of all User.
 exports.User_list = function(req, res) {
     res.send('NOT IMPLEMENTED: User list');
 };
-
-// Display detail page for a specific user.
+        
+// Display a specific User.
 exports.User_detail = function(req, res) {
     res.send('NOT IMPLEMENTED: User detail: ' + req.params.id);
 };
-
-// Display user create form on GET.
-exports.User_create_get = function(req, res) {
+        
+// Display User create form on GET.
+    exports.User_create_get = function(req, res) {
     res.send('NOT IMPLEMENTED: User create GET');
 };
-
-// Handle user create on POST.
+        
+// Handle User create on POST.
 exports.User_create_post = function(req, res) {
     res.send('NOT IMPLEMENTED: User create POST');
 };
-
-// Display user delete form on GET.
+        
+// Display User delete form on GET.
 exports.User_delete_get = function(req, res) {
     res.send('NOT IMPLEMENTED: User delete GET');
 };
-
-// Handle book delete on POST.
+        
+// Handle User delete on POST.
 exports.User_delete_post = function(req, res) {
     res.send('NOT IMPLEMENTED: User delete POST');
 };
-
-// Display user update form on GET.
+        
+// Display User update form on GET.
 exports.User_update_get = function(req, res) {
-    user.send('NOT IMPLEMENTED: User update GET');
+    res.send('NOT IMPLEMENTED: User update GET');
 };
-
-// Handle user update on POST.
+        
+// Handle User update on POST.
 exports.User_update_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: User update POST');
+   res.send('NOT IMPLEMENTED: User update POST');
 };
+        
 
+```
+And a router that looks like this
+
+```
+var routerModule = require("../../src/server")
+const router = routerModule.router;
+// Require controller modules.
+const User_controller = require('../../src/controllers/UserController');
+
+/// User ROUTES ///
+
+// GET request for one User.
+router.get('/:id', User_controller.User_detail);
+
+// GET request for list of all User items.
+router.get('/getall', User_controller.User_list);
+
+// GET request for creating a User. NOTE User (uses id).
+router.get('/create', User_controller.User_create_get);
+
+// POST request for creating a User.
+router.post('/create', User_controller.User_create_post);
+
+// GET request to delete User.
+router.get('/:id/delete', User_controller.User_delete_get);
+
+// POST request to delete User.
+router.post('/:id/delete', User_controller.User_delete_post);
+
+// GET request to update User.
+router.get('/:id/update', User_controller.User_update_get);
+
+// POST request to update User.
+router.post('/:id/update', User_controller.User_update_post);
+        
+module.exports = router;
 ```
 
 when specifying a model name, it is necessary to include "Model" in your model name, looking like this "UserModel". And make sure your data types are in the correctly written : String, [], {}, Number.

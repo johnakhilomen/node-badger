@@ -12,6 +12,7 @@ export class FileContentTypes
 
         getServerJS = () : string => 
         `const express = require("express");
+        exports.router = express.Router();
         const mongoose = require("mongoose");
         const bodyparser = require("body-parser");
         const cors = require("cors");

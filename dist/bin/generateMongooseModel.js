@@ -46,7 +46,7 @@ const {ModelGenerator} = require("../src/impls/ModelGenerator");
     let data = fs.readFileSync(`${currentDir}/src/server.js`).toString().split("\n");
     data.splice((data.length-2), 0, `
     const ${modelNameWithoutModel}_router = require('./routers/${modelNameWithoutModel}Router');
-    SERVER.use('/${modelNameWithoutModel}', Test_router);
+    SERVER.use('/${modelNameWithoutModel}', ${modelNameWithoutModel}_router);
     ` );
     let text = data.join("\n");
 
