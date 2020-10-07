@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 const {ControllerGenerator} = require("../src/impls/ControllerGenerator");
 const {RouterGenerator} = require("../src/impls/RouterGenerator");
+const {ModelGenerator} = require("../src/impls/ModelGenerator");
 
 (async function () {
     try
@@ -30,8 +31,12 @@ const {RouterGenerator} = require("../src/impls/RouterGenerator");
         const innerArr = att.split(":");
         modelObj[`${innerArr[0]}`] = innerArr[1];
     });
- 
-    let filecontent = `const mongoose = require("mongoose");
+    let currentDir = process.cwd();
+    const modelNameWithoutModel = modelName.charAt(0).toUpperCase() + modelName.replace("Model", "").slice(1) ;
+    
+    let modelGenerator = new ModelGenerator(`${currentDir}/src/models/${modelName}.js`, modelObj, modelName, modelNameWithoutModel);
+    modelGenerator.writeToController();
+    /*let filecontent = `const mongoose = require("mongoose");
 const ${modelName}Schema = mongoose.Schema({\n`;
     
     
@@ -109,9 +114,8 @@ const ${modelName}Schema = mongoose.Schema({\n`;
         if (!fs.existsSync(srcvmodelsDirname)) {
             throw new Error ("models folder doesn't exist.");
         }
-    await fs.promises.writeFile(`${currentDir}/src/models/${modelName}.js`, `${filecontent}`, 'utf8');
+    await fs.promises.writeFile(`${currentDir}/src/models/${modelName}.js`, `${filecontent}`, 'utf8');*/
       
-    const modelNameWithoutModel = modelName.charAt(0).toUpperCase() + modelName.replace("Model", "").slice(1) ;
    
 let controllerGenerator = new ControllerGenerator(`${currentDir}/src/controllers/${modelNameWithoutModel}Controller.js`, modelName, modelNameWithoutModel);
 controllerGenerator.writeToController();
