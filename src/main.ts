@@ -17,4 +17,4 @@ let cb: any = (e: Error, r: boolean) => {
 
 }
 
-projectStructure.Setup(cb);
+projectStructure.Setup();

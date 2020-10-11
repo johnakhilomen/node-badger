@@ -11,5 +11,5 @@ let cb = (e, r) => {
     if (!r) {
     }
 };
-projectStructure.Setup(cb);
+projectStructure.Setup();
 //# sourceMappingURL=main.js.map

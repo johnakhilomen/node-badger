@@ -3,9 +3,9 @@ import {PackageJson} from "../../src/impls/PackageJson";
 import mocha from "mocha";
 import sinon from "sinon";
 import {assert} from "chai";
-import { CallBack } from "../../src/impls/CallBack";
 
-describe("Test suite for PackageJson", ()=> {
+
+/*describe("Test suite for PackageJson", ()=> {
    
     context("To test when initialized with empty _packageJson", ()=> {
 
@@ -33,13 +33,13 @@ describe("Test suite for PackageJson", ()=> {
             }
         });
 
-        /*it("should test CallBack class with a spy on Create", ()=> {
-            let cback : CallBack = new CallBack();
-            let cbObjSpy : any = sinon.spy(cback, "Create"); 
-            cback.Create(new Error("Error"), false);
-            assert.isTrue(cbObjSpy.calledOnce);
+        // it("should test CallBack class with a spy on Create", ()=> {
+        //     let cback : CallBack = new CallBack();
+        //     let cbObjSpy : any = sinon.spy(cback, "Create"); 
+        //     cback.Create(new Error("Error"), false);
+        //     assert.isTrue(cbObjSpy.calledOnce);
             
-        })*/
+        // })
 
     });
 
@@ -72,4 +72,4 @@ describe("Test suite for PackageJson", ()=> {
     });
 
 })
-
+*/

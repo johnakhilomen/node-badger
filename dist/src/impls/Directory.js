@@ -16,37 +16,49 @@ exports.Directory = void 0;
 const fs_1 = __importDefault(require("fs"));
 class Directory {
     constructor(parentDir, subDirs) {
-        this.CreateSubDirs = (cb) => {
-            if (this._parentDir == "") {
-                cb(new Error("You need to pass a parent dir"), false);
-                return;
-            }
-            if (this._subDirs.length < 1) {
-                cb(new Error("You need to pass an array of sub dirs"), false);
-                return;
-            }
-            if (!fs_1.default.existsSync(this._parentDir)) {
-                cb(new Error("Parent dir doesn't exist"), false);
-                return;
-            }
-            this._subDirs.forEach((dir) => __awaiter(this, void 0, void 0, function* () {
-                try {
-                    let subdirToCreate = `${this._parentDir}/${dir}`;
-                    yield fs_1.default.promises.mkdir(subdirToCreate, { recursive: true });
-                }
-                catch (err) {
-                    //console.log(err);
-                }
-            }));
-            //console.log(fs.readdirSync(this._parentDir).length + ":" + this._parentDir);
+        this._createdDirs = [];
+        this.CreateSubDirs = () => {
             return new Promise((resolve, reject) => {
-                if (fs_1.default.readdirSync(this._parentDir).length < 1) {
-                    reject(new Error("No sub dir created"));
-                    cb(new Error("No sub dir created"), false);
+                if (this._parentDir == "") {
+                    reject(new Error("parent dir is missing"));
                     return;
                 }
-                resolve(true);
-                cb(null, true);
+                if (this._subDirs.length < 1) {
+                    reject(new Error("an array of sub dirs is missing"));
+                    return;
+                }
+                if (!fs_1.default.existsSync(this._parentDir)) {
+                    reject(new Error("Parent dir doesn't exist"));
+                    return;
+                }
+                this._subDirs.forEach((dir) => __awaiter(this, void 0, void 0, function* () {
+                    let subdirToCreate = `${this._parentDir}/${dir}`;
+                    try {
+                        fs_1.default.mkdirSync(subdirToCreate, { recursive: true });
+                        this._createdDirs.push(subdirToCreate);
+                    }
+                    catch (err) {
+                        /*if (err.code === 'EEXIST')
+                        {
+                        reject(new Error("Folder already exist"));
+                        return;
+                        }
+                        // To avoid `EISDIR` error on Mac and `EACCES`-->`ENOENT` and `EPERM` on Windows.
+                        if (err.code === 'ENOENT')
+                        {
+                            reject(new Error(`permission denied, when creating '${subdirToCreate}'`));
+                            return;
+                        }
+                        else
+                        {
+                            reject(new Error(err.message));
+                            return;
+                        }*/
+                        reject(new Error(err.message));
+                        return;
+                    }
+                }));
+                resolve(this._createdDirs);
             });
         };
         this._parentDir = parentDir;

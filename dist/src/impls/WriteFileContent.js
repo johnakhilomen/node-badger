@@ -16,52 +16,43 @@ exports.WriteFileContent = void 0;
 const CreateError_1 = require("./CreateError");
 const fs_1 = __importDefault(require("fs"));
 class WriteFileContent {
-    constructor(sourcePath, content, jsonFile) {
-        this.CreateWithContent = (cb) => {
-            if (!this.CheckIfEmpty(false)) {
-                cb(new CreateError_1.CreateError("sourcePath string is empty").getError(), null);
-                return;
-            }
-            if (!this.CheckIfEmpty(true)) {
-                cb(new CreateError_1.CreateError("content string is empty").getError(), null);
-                return;
-            }
+    constructor(filecontent) {
+        this.CreateWithContent = () => {
             return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-                try {
-                    switch (this._jsonFile) {
-                        case true:
-                            yield fs_1.default.promises.writeFile(`${this._sourcePath}`, JSON.stringify(this._content, null, 2), 'utf8');
-                            break;
-                        default:
-                            yield fs_1.default.promises.writeFile(`${this._sourcePath}`, this._content, 'utf8');
-                            break;
-                    }
-                    if (!fs_1.default.existsSync(`${this._sourcePath}`)) {
-                        const errStr = "Writefile: Problem creating file";
-                        cb(new CreateError_1.CreateError(errStr).getError(), null);
-                        reject(new CreateError_1.CreateError(errStr).getError());
-                        return;
-                    }
-                    cb(null, true);
-                    resolve(true);
+                if (!this.CheckIfEmpty(false)) {
+                    reject(new CreateError_1.CreateError("sourcePath string is empty").getError());
+                    return;
                 }
-                catch (err) {
-                    //console.log(err);
+                if (!this.CheckIfEmpty(true)) {
+                    reject(new CreateError_1.CreateError("content string is empty").getError());
+                    return;
                 }
+                switch (this._filecontent.isJson) {
+                    case true:
+                        yield fs_1.default.promises.writeFile(`${this._filecontent.filePath}`, JSON.stringify(this._filecontent.fileContent, null, 2), 'utf8');
+                        break;
+                    default:
+                        yield fs_1.default.promises.writeFile(`${this._filecontent.filePath}`, this._filecontent.fileContent, 'utf8');
+                        break;
+                }
+                if (!fs_1.default.existsSync(`${this._filecontent.filePath}`)) {
+                    const errStr = "Writefile: Problem creating file";
+                    reject(new CreateError_1.CreateError(errStr).getError());
+                    return;
+                }
+                resolve(true);
             }));
         };
-        this._sourcePath = sourcePath;
-        this._content = content;
-        this._jsonFile = jsonFile;
+        this._filecontent = filecontent;
     }
     CheckIfEmpty(flagContentToTrue) {
         if (!flagContentToTrue) {
-            if (this._sourcePath == "") {
+            if (this._filecontent.filePath == "") {
                 return false;
             }
             return true;
         }
-        if (this._content == "") {
+        if (this._filecontent.fileContent == "") {
             return false;
         }
         return true;

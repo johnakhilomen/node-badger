@@ -16,34 +16,35 @@ exports.ProjectStructure = void 0;
 const inquirer_1 = __importDefault(require("inquirer"));
 const Directory_1 = require("../impls/Directory");
 const WriteFileContent_1 = require("../impls/WriteFileContent");
-const PackageJson_1 = require("./PackageJson");
 const FileContentTypes_1 = require("../params/FileContentTypes");
-const CallBack_1 = require("../impls/CallBack");
 const ExecuteCmd_1 = require("../../cmds/ExecuteCmd");
+const CreatePackageJsonFile_1 = require("./CreatePackageJsonFile");
 class ProjectStructure {
     constructor(questionSets) {
         this._rootSubdirs = [] = ["src", "test"];
         this._srcSubDirs = [] = ["models", "views", "controllers", "routers", "config"];
-        this.CallBack = () => {
-            let callback = new CallBack_1.CallBack();
-            return callback.Create();
+        this._createPackageJson = {};
+        this.getCreatePackageJsonFile = () => this._createPackageJson;
+        this.setCreatePackageJsonFile = (value) => {
+            this._createPackageJson = new CreatePackageJsonFile_1.CreatePackageJsonFile(value);
         };
-        this.Setup = (cb) => __awaiter(this, void 0, void 0, function* () {
-            let questionsandanswers;
-            let currentDir = "";
-            let directory;
-            let writefileContent;
-            let fileContentType = new FileContentTypes_1.FileContentTypes();
-            try {
-                if (this._questionSets.GetQuestionSet1().length < 1) {
-                    cb(new Error("this._questionSets.GetQuestionSet1 is an empty array"), false);
-                    return;
-                }
-                questionsandanswers = yield inquirer_1.default.prompt(this._questionSets.GetQuestionSet1());
-                const { rootFolder, authorsName, version, description, entry, repository, license } = questionsandanswers;
-                currentDir = process.cwd();
-                directory = new Directory_1.Directory(currentDir, [rootFolder]);
-                let createdRootFolder = yield directory.CreateSubDirs(this.CallBack());
+        this._directory = {};
+        this.getDirectory = () => this._directory;
+        this.setDirectory = (filePath, subDirs) => {
+            this._directory = new Directory_1.Directory(filePath, subDirs);
+        };
+        this.getFileContentTypes = () => new FileContentTypes_1.FileContentTypes();
+        this.CreateRootFolder = (currentDir, rootFolder) => {
+            return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+                this.setDirectory(`${currentDir}`, [rootFolder]);
+                let createdRootFolder = yield this.getDirectory().CreateSubDirs();
+                this.setDirectory(`${currentDir}/${rootFolder}`, this._rootSubdirs);
+                let createdSrc = yield this.getDirectory().CreateSubDirs();
+                resolve([createdRootFolder, createdSrc]);
+            }));
+        };
+        this.CreatePackageJsonObject = (rootFolder, version, description, entry, repository, authorsName, license) => {
+            return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
                 let iPackageJson = {
                     rootFolder: rootFolder,
                     version: version,
@@ -53,30 +54,20 @@ class ProjectStructure {
                     authorsName: authorsName,
                     license: license
                 };
-                if (!createdRootFolder) {
-                    console.log(`${currentDir} couldn't be created`);
-                }
-                let writefileContentLocal = new WriteFileContent_1.WriteFileContent(`${currentDir}/${rootFolder}/local.js`, fileContentType.getLocalJS(), false);
-                writefileContentLocal.CreateWithContent(this.CallBack());
-                directory = new Directory_1.Directory(`${currentDir}/${rootFolder}`, this._rootSubdirs);
-                let createdRootSubFolders = yield directory.CreateSubDirs(this.CallBack());
-                if (!createdRootSubFolders) {
-                    console.log("Root SubFolders couldn't be created");
-                }
-                let writefileContentServer = new WriteFileContent_1.WriteFileContent(`${currentDir}/${rootFolder}/src/server.js`, fileContentType.getServerJS(), false);
-                writefileContentServer.CreateWithContent(this.CallBack());
-                directory = new Directory_1.Directory(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
-                let createdSrcSubFolders = yield directory.CreateSubDirs(this.CallBack());
-                if (!createdSrcSubFolders) {
-                    console.log("SRC SubFolders couldn't be created");
-                }
+                this.setCreatePackageJsonFile(iPackageJson);
+                let createPackageJson = this.getCreatePackageJsonFile();
+                let createdJson = yield createPackageJson.CreateJSONObject();
+                resolve(createdJson);
+            }));
+        };
+        this.LoadSecondQuestionsSet = (createdJson, currentDir, rootFolder) => __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
                 let questionsandanswers2 = yield inquirer_1.default.prompt(this._questionSets.GetQuestionSet2());
                 const { dbType } = questionsandanswers2;
-                let packageJson = new PackageJson_1.PackageJson(iPackageJson, `${currentDir}/${rootFolder}/package.json`);
                 switch (dbType) {
                     case 'mongo':
-                        packageJson._jsonObj["dependencies"]["mongodb"] = "^3.6.2";
-                        packageJson._jsonObj["dependencies"]["mongoose"] = "^5.10.5";
+                        createdJson["dependencies"]["mongodb"] = "^3.6.2";
+                        createdJson["dependencies"]["mongoose"] = "^5.10.5";
                         let configMongo = `const Params = require('./params');
                   exports.MongoConf = ( (SERVER, mongoose) => {
                     mongoose.Promise =  global.Promise;
@@ -86,28 +77,99 @@ class ProjectStructure {
                        
                 });
                   `;
-                        let writefileContentServer = new WriteFileContent_1.WriteFileContent(`${currentDir}/${rootFolder}/src/config/mongoConf.js`, configMongo, false);
-                        writefileContentServer.CreateWithContent(this.CallBack());
+                        this.WriteMongoConfFile(`${currentDir}/${rootFolder}/src/config/mongoConf.js`, configMongo, false);
+                        this.WriteMongoParamFile(`${currentDir}/${rootFolder}/src/config/params.js`);
                         break;
                     case 'postgres':
-                        packageJson._jsonObj["dependencies"]["pg"] = "^8.3.3";
-                        packageJson._jsonObj["dependencies"]["pg-hstore"] = "^2.3.3";
-                        packageJson._jsonObj["dependencies"]["sequelize"] = "^6.3.5";
+                        createdJson["dependencies"]["pg"] = "^8.3.3";
+                        createdJson["dependencies"]["pg-hstore"] = "^2.3.3";
+                        createdJson["dependencies"]["sequelize"] = "^6.3.5";
                         break;
                     default:
                         break;
                 }
-                packageJson.Create(this.CallBack());
-                //Set up Configuration File
-                const configJSON = {
-                    PORT: 8000,
-                    MONGO_URI: "mongodb://localhost:27017/test?readPreference=primary&appname=MongoDB%20Compass&ssl=false",
-                };
-                const configJS = `
-                module.exports = ${JSON.stringify(configJSON, null, 2)};
-            `;
-                let writefileContentConfigFile = new WriteFileContent_1.WriteFileContent(`${currentDir}/${rootFolder}/src/config/params.js`, configJS, false);
-                writefileContentConfigFile.CreateWithContent(this.CallBack());
+                resolve(createdJson);
+            }));
+        });
+        this.WriteFileContent = (filePath, json, isJson) => {
+            let fileContent = {
+                filePath: filePath,
+                fileContent: json,
+                isJson: isJson
+            };
+            let writefileContent = new WriteFileContent_1.WriteFileContent(fileContent);
+            this.getCreatePackageJsonFile().WriteFile(writefileContent);
+        };
+        this.WritefileToPackageJson = (filePath, json) => {
+            /* let fileContent: IFileContent = {
+                     filePath : filePath,
+                     fileContent : json,
+                     isJson : true
+             }
+             let writefileContent : IWriteFileContent = new WriteFileContent(fileContent);
+             this.getCreatePackageJsonFile().WriteFile(writefileContent);*/
+            this.WriteFileContent(filePath, json, true);
+        };
+        this.WriteMongoConfFile = (filePath, json, isJson) => {
+            /*let iFileContentMongo: IFileContent = {
+                filePath : filePath,
+                fileContent : json,
+                isJson : isJson
+            };
+            let writefileContentServer:WriteFileContent = new WriteFileContent(iFileContentMongo);
+            writefileContentServer.CreateWithContent();*/
+            this.WriteFileContent(filePath, json, isJson);
+        };
+        this.WriteToLocalJS = (currentDir, rootFolder) => {
+            this.WriteFileContent(`${currentDir}/${rootFolder}/local.js`, this.getFileContentTypes().getLocalJS(), false);
+        };
+        this.WriteToServerJS = (currentDir, rootFolder) => {
+            this.WriteFileContent(`${currentDir}/${rootFolder}/src/server.js`, this.getFileContentTypes().getServerJS(), false);
+        };
+        this.WriteMongoParamFile = (filePath) => {
+            const configJSON = {
+                PORT: 8000,
+                MONGO_URI: "mongodb://localhost:27017/test?readPreference=primary&appname=MongoDB%20Compass&ssl=false",
+            };
+            const configJS = `
+            module.exports = ${JSON.stringify(configJSON, null, 2)};
+    `;
+            /*let iFileContentMongo: IFileContent = {
+                    filePath : filePath,
+                    fileContent : configJSON,
+                    isJson : false
+            };
+            let writefileContentServer:WriteFileContent = new WriteFileContent(iFileContentMongo);
+            writefileContentServer.CreateWithContent();*/
+            this.WriteFileContent(filePath, configJSON, false);
+        };
+        this.CreateSrcFolderAndItsSubFolders = (filePath, subdirs) => __awaiter(this, void 0, void 0, function* () {
+            this.setDirectory(filePath, subdirs);
+            let createdSrcSubFolders = yield this.getDirectory().CreateSubDirs();
+            if (!createdSrcSubFolders) {
+                console.log("SRC SubFolders couldn't be created");
+            }
+        });
+        this.Setup = () => __awaiter(this, void 0, void 0, function* () {
+            let questionsandanswers;
+            let currentDir = "";
+            //let writefileContent: WriteFileContent;
+            try {
+                if (this._questionSets.GetQuestionSet1().length < 1) {
+                    //cb(new Error("this._questionSets.GetQuestionSet1 is an empty array"), false);
+                    return;
+                }
+                questionsandanswers = yield inquirer_1.default.prompt(this._questionSets.GetQuestionSet1());
+                const { rootFolder, authorsName, version, description, entry, repository, license } = questionsandanswers;
+                currentDir = process.cwd();
+                let createdRootFolder = yield this.CreateRootFolder(currentDir, rootFolder);
+                let createdJson = yield this.CreatePackageJsonObject(rootFolder, version, description, entry, repository, authorsName, license);
+                let updatepackageJson = yield this.LoadSecondQuestionsSet(createdJson, currentDir, rootFolder);
+                console.log(updatepackageJson);
+                this.WritefileToPackageJson(`${currentDir}/${rootFolder}/package.json`, updatepackageJson);
+                this.WriteToLocalJS(currentDir, rootFolder);
+                this.CreateSrcFolderAndItsSubFolders(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
+                this.WriteToServerJS(currentDir, rootFolder);
                 setTimeout(() => {
                     let executeCmd = new ExecuteCmd_1.ExecuteCmd(`npm install -C ${rootFolder}`);
                     executeCmd.on("donewithnoerrors", () => {
@@ -123,7 +185,7 @@ class ProjectStructure {
                         //console.log('Congratulations 🎉🎉🎉! Project setup is complete! \n Happy Hacking! 🚀');
                     });
                 }, 200);
-                cb(null, true);
+                //cb(null, true);
             }
             catch (err) {
                 console.log(err);
