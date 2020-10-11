@@ -1,13 +1,14 @@
 language: node_js
-
+before_script:
+  - npm run setup
+  - npm run build
 node_js:
   - stable
 branch:
   - master
   - develop
-before_install:
-- npm install -g typescript
-install:
-  - npm install
+  after_success:
+  - npm run typedoc
+  - npm pack
 script:
-  - npm test
+  - npm run test
