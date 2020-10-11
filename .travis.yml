@@ -7,7 +7,7 @@ node_js:
 branch:
   - master
   - develop
-  after_success:
+after_success:
   - npm run typedoc
   - npm pack
 script:
