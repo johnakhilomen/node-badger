@@ -3,7 +3,7 @@ import {Directory} from "../../src/impls/Directory";
 import mocha from "mocha";
 import sinon from "sinon";
 import fs from "fs";
-import { IDirectory } from "../../src/interfaces/IDirectory";
+//import { IDirectory } from "../../src/interfaces/IDirectory";
 
 /*describe("Test suite for Directory", ()=> {
     
