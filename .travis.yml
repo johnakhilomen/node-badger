@@ -6,7 +6,7 @@ branch:
   - master
   - develop
 before_install:
-- npm install -g typescript@1.0
+- npm install -g typescript
 install:
   - npm install
 script:
