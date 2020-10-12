@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "@types/inquirer": "^7.3.1",
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "yargs": "^16.0.3"
   }
 }

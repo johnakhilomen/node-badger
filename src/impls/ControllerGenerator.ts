@@ -17,7 +17,14 @@ export class ControllerGenerator
     }
     writeToController: any = async () =>
     {
-        let writeFile: any =  this._writeFileContent.CreateWithContent();
+        try
+        {
+            let writeFile: any =  await this._writeFileContent.CreateWithContent();
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
 
     }
     

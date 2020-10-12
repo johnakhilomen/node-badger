@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+//import { IDirectory } from "../../src/interfaces/IDirectory";
 /*describe("Test suite for Directory", ()=> {
     
     context("test when _parentDir and _subDirs are null strings", ()=> {
