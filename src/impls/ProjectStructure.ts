@@ -128,11 +128,11 @@ export class ProjectStructure
     }
 
     WriteToLocalJS = (currentDir: string, rootFolder: string) : any => {
-        this.WriteFileContent(`${currentDir}/${rootFolder}/local.js`, this.getFileContentTypes().getLocalJS(), false);
+        this.WriteFileContent(`${currentDir}/${rootFolder}/local.js`, this.getFileContentTypes().getLocalJS().RemoveSpacesInFrontOfEveryTextLineInAStrings(), false);
     }
 
     WriteToServerJS = (currentDir: string, rootFolder: string) : any => {
-        this.WriteFileContent(`${currentDir}/${rootFolder}/src/server.js`, this.getFileContentTypes().getServerJS(), false);
+        this.WriteFileContent(`${currentDir}/${rootFolder}/src/server.js`, this.getFileContentTypes().getServerJS().RemoveSpacesInFrontOfEveryTextLineInAStrings(), false);
     }
 
     WriteMongoParamFile = (filePath: string): void => {
@@ -143,7 +143,7 @@ export class ProjectStructure
     const configJS = `
             module.exports = ${JSON.stringify(configJSON, null, 2)};
     `;
-    this.WriteFileContent(filePath, configJSON, true);
+    this.WriteFileContent(filePath, configJS, false);
     }
 
     CreateSrcFolderAndItsSubFolders = async (filePath: string, subdirs: any) => {

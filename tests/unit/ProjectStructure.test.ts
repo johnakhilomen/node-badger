@@ -51,6 +51,87 @@ describe("Test suite for Project Structure", ()=> {
         });
     });
 
+    //For postgres
+    context("Test for Project Structure when creating root folder and selecting posthres as dbType", ()=> {
+        let projectStructure : ProjectStructure;
+        let questionSets: QuestionSets;
+        let promptQuestionsStubs: any;
+    
+    before(()=>{
+        questionSets = new QuestionSets();
+        //questionSet2Stub = sinon.stub(questionSets, "GetQuestionSet2").returns({});
+        projectStructure = new ProjectStructure(questionSets);
+        promptQuestionsStubs = sinon.stub(inquirer, "prompt").resolves({
+                rootFolder : "projecttest",
+                authorsName : "Jon Doe", 
+                version : "1.0.0",
+                description: "Some description", 
+                entry : "index.js", 
+                repository: "repo",
+                license : "MIT",
+                dbType: "postgres"
+                });
+    });
+    after(()=>{
+        promptQuestionsStubs.restore();
+        //questionSet2Stub.restore();
+    });
+    
+    it("test that we can create root folder with test and src folders", async ()=>{
+        let createdRoot: string[] = await projectStructure.CreateRootFolder(__dirname, "projecttest");
+        assert.isTrue(createdRoot.length == 2);
+        assert.isTrue(createdRoot[1].length == 2) 
+    });
+
+    it("test that we can create root folder with test and src folders", async ()=>{
+       
+    });
+
+    it("test that we can create a jsonObject for package json file", async ()=>{
+
+        let createdSRCRoot: any = await projectStructure.CreateSrcFolderAndItsSubFolders(__dirname+"/projecttest/src", ["models", "views", "controllers", "routers", "config"]);
+        assert.isTrue(createdSRCRoot.length == 5);
+        //console.log(createdSRCRoot);
+        assert.isTrue(checkItemInArray(createdSRCRoot, "config"));
+        assert.isTrue(checkItemInArray(createdSRCRoot, "models"));
+        assert.isTrue(checkItemInArray(createdSRCRoot, "views"));
+        assert.isTrue(checkItemInArray(createdSRCRoot, "controllers"));
+        assert.isTrue(checkItemInArray(createdSRCRoot, "routers"));
+        let createdPackageJSON : any = await projectStructure.CreatePackageJsonObject("projecttest", "1.0.0", "Description for projecttest",
+        "index.js", "http://www.git.com", "Jon Doe", "MIT");
+        assert.isTrue(Object.entries(createdPackageJSON).length == 10);
+        assert.equal(createdPackageJSON["name"], "projecttest");
+        assert.equal(createdPackageJSON["version"], "1.0.0");
+        assert.equal(createdPackageJSON["description"].split(" ").join(""), "Descriptionforprojecttest");
+        assert.equal(createdPackageJSON["main"], "index.js");
+        assert.equal(createdPackageJSON["author"].split(" ").join(""), "JonDoe");
+        assert.equal(createdPackageJSON["license"], "MIT");
+        assert.isTrue(Object.entries(createdPackageJSON["scripts"]).length == 3);
+        assert.equal(createdPackageJSON["scripts"]["test"], `echo "Error: no test specified" && exit 1`);
+        assert.equal(createdPackageJSON["scripts"]["start"], "node local.js");
+        assert.equal(createdPackageJSON["scripts"]["server"], "nodemon local.js");
+        assert.isTrue(Object.entries(createdPackageJSON["dependencies"]).length == 3);
+        assert.equal(createdPackageJSON["dependencies"]["express"], `^4.17.1`);
+        assert.equal(createdPackageJSON["dependencies"]["cors"], "^2.8.5");
+        assert.equal(createdPackageJSON["dependencies"]["body-parser"], "^1.19.0");
+        assert.isTrue(Object.entries(createdPackageJSON["devDependencies"]).length == 4);
+        assert.equal(createdPackageJSON["devDependencies"]["nodemon"], `^2.0.4`);
+        assert.equal(createdPackageJSON["devDependencies"]["jest"], "^26.4.2");
+        assert.equal(createdPackageJSON["devDependencies"]["mocha"], "^8.1.3");
+        assert.equal(createdPackageJSON["devDependencies"]["chai"], "^4.2.0");
+ 
+        let jsonObj: any = await projectStructure.LoadSecondQuestionsSet2(createdPackageJSON, __dirname, "projecttest");
+        //console.log(jsonObj);
+
+        assert.equal(createdPackageJSON["dependencies"]["pg"], "^8.3.3");
+        assert.equal(createdPackageJSON["dependencies"]["pg-hstore"], "^2.3.3");
+        assert.equal(createdPackageJSON["dependencies"]["sequelize"], "^6.3.5");   
+
+    });
+    
+    });
+
+
     context("Test for Project Structure when creating root folder and selecting mongo as dbType", ()=> {
         let projectStructure : ProjectStructure;
         let questionSets: QuestionSets;
@@ -138,91 +219,8 @@ describe("Test suite for Project Structure", ()=> {
     });
 
   
-
     //For postgres
-    context("Test for Project Structure when creating root folder and selecting posthres as dbType", ()=> {
-        let projectStructure : ProjectStructure;
-        let questionSets: QuestionSets;
-        let promptQuestionsStubs: any;
-    
-    before(()=>{
-        questionSets = new QuestionSets();
-        //questionSet2Stub = sinon.stub(questionSets, "GetQuestionSet2").returns({});
-        projectStructure = new ProjectStructure(questionSets);
-        promptQuestionsStubs = sinon.stub(inquirer, "prompt").resolves({
-                rootFolder : "projecttest",
-                authorsName : "Jon Doe", 
-                version : "1.0.0",
-                description: "Some description", 
-                entry : "index.js", 
-                repository: "repo",
-                license : "MIT",
-                dbType: "postgres"
-                });
-    });
-    after(()=>{
-        promptQuestionsStubs.restore();
-        //questionSet2Stub.restore();
-    });
-    
-    it("test that we can create root folder with test and src folders", async ()=>{
-        let createdRoot: string[] = await projectStructure.CreateRootFolder(__dirname, "projecttest");
-        assert.isTrue(createdRoot.length == 2);
-        assert.isTrue(createdRoot[1].length == 2) 
-    });
-
-    it("test that we can create root folder with test and src folders", async ()=>{
-       
-    });
-
-    it("test that we can create a jsonObject for package json file", async ()=>{
-
-        let createdSRCRoot: any = await projectStructure.CreateSrcFolderAndItsSubFolders(__dirname+"/projecttest/src", ["models", "views", "controllers", "routers", "config"]);
-        assert.isTrue(createdSRCRoot.length == 5);
-        //console.log(createdSRCRoot);
-        assert.isTrue(checkItemInArray(createdSRCRoot, "config"));
-        assert.isTrue(checkItemInArray(createdSRCRoot, "models"));
-        assert.isTrue(checkItemInArray(createdSRCRoot, "views"));
-        assert.isTrue(checkItemInArray(createdSRCRoot, "controllers"));
-        assert.isTrue(checkItemInArray(createdSRCRoot, "routers"));
-        let createdPackageJSON : any = await projectStructure.CreatePackageJsonObject("projecttest", "1.0.0", "Description for projecttest",
-        "index.js", "http://www.git.com", "Jon Doe", "MIT");
-        assert.isTrue(Object.entries(createdPackageJSON).length == 10);
-        assert.equal(createdPackageJSON["name"], "projecttest");
-        assert.equal(createdPackageJSON["version"], "1.0.0");
-        assert.equal(createdPackageJSON["description"].split(" ").join(""), "Descriptionforprojecttest");
-        assert.equal(createdPackageJSON["main"], "index.js");
-        assert.equal(createdPackageJSON["author"].split(" ").join(""), "JonDoe");
-        assert.equal(createdPackageJSON["license"], "MIT");
-        assert.isTrue(Object.entries(createdPackageJSON["scripts"]).length == 3);
-        assert.equal(createdPackageJSON["scripts"]["test"], `echo "Error: no test specified" && exit 1`);
-        assert.equal(createdPackageJSON["scripts"]["start"], "node local.js");
-        assert.equal(createdPackageJSON["scripts"]["server"], "nodemon local.js");
-        assert.isTrue(Object.entries(createdPackageJSON["dependencies"]).length == 3);
-        assert.equal(createdPackageJSON["dependencies"]["express"], `^4.17.1`);
-        assert.equal(createdPackageJSON["dependencies"]["cors"], "^2.8.5");
-        assert.equal(createdPackageJSON["dependencies"]["body-parser"], "^1.19.0");
-        assert.isTrue(Object.entries(createdPackageJSON["devDependencies"]).length == 4);
-        assert.equal(createdPackageJSON["devDependencies"]["nodemon"], `^2.0.4`);
-        assert.equal(createdPackageJSON["devDependencies"]["jest"], "^26.4.2");
-        assert.equal(createdPackageJSON["devDependencies"]["mocha"], "^8.1.3");
-        assert.equal(createdPackageJSON["devDependencies"]["chai"], "^4.2.0");
- 
-        let jsonObj: any = await projectStructure.LoadSecondQuestionsSet2(createdPackageJSON, __dirname, "projecttest");
-        //console.log(jsonObj);
-
-        assert.equal(createdPackageJSON["dependencies"]["pg"], "^8.3.3");
-        assert.equal(createdPackageJSON["dependencies"]["pg-hstore"], "^2.3.3");
-        assert.equal(createdPackageJSON["dependencies"]["sequelize"], "^6.3.5");   
-
-    });
-    
-    });
-
-
-
-    //For postgres
-    context("Test for Project Structure's setup function", ()=> {
+    context("Test for Project Structure's setup function with mongo as dbtype", ()=> {
         let projectStructure : ProjectStructure;
         let questionSets: QuestionSets;
         let promptQuestionsStubs: any;
@@ -247,7 +245,7 @@ describe("Test suite for Project Structure", ()=> {
                 entry : "index.js", 
                 repository: "repo",
                 license : "MIT",
-                dbType: "postgres"
+                dbType: "mongo"
                 });
     });
     after(()=>{
@@ -273,18 +271,6 @@ describe("Test suite for Project Structure", ()=> {
     });
 
 
-    context("", ()=> {
-
-        before(()=>{
-
-        });
-        after(()=>{
-
-        });
-    })
-
-
-    
-
+   
 
 })
