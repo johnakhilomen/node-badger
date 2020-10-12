@@ -164,7 +164,7 @@ export class ProjectStructure
         {
             if(this._questionSets.GetQuestionSet1().length < 1)
             {
-                //cb(new Error("this._questionSets.GetQuestionSet1 is an empty array"), false);
+                reject(new Error("this._questionSets.GetQuestionSet1 is an empty array"));
                 return;
             }
 
