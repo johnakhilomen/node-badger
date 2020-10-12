@@ -270,7 +270,43 @@ describe("Test suite for Project Structure", ()=> {
     
     });
 
-
-   
+    context("Test when Setup is stubbed to throw error", ()=> {
+        let setUpStub : any;
+        let questionSets : QuestionSets = {} as QuestionSets;
+        let projectStructure : ProjectStructure = {} as ProjectStructure;
+        let err : any = new Error("Some Error");
+        let promptQuestionsStubs: any;
+        before(()=>{
+            questionSets = new QuestionSets();
+            projectStructure = new ProjectStructure(questionSets);
+            setUpStub = sinon.stub(projectStructure, "WritefileToPackageJson").throws(err);
+            promptQuestionsStubs = sinon.stub(inquirer, "prompt").resolves({
+                rootFolder : "projecttest",
+                authorsName : "Jon Doe", 
+                version : "1.0.0",
+                description: "Some description", 
+                entry : "index.js", 
+                repository: "repo",
+                license : "MIT",
+                dbType: "mongo"
+                });
+        });
+        after(()=>{
+            setUpStub.restore();
+            promptQuestionsStubs.restore();
+        });
+        it("projectStructure.Setup() throws error", async ()=> {
+            try
+            {
+                await projectStructure.Setup();
+            }
+            catch(error)
+            {
+                //console.log(error.message);
+                assert.isTrue(error.message == "Some Error");
+            }
+        });
+    });
+    
 
 })

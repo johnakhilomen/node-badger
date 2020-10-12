@@ -101,8 +101,8 @@ export class ProjectStructure
                     createdJson["dependencies"]["pg-hstore"] = "^2.3.3"; 
                     createdJson["dependencies"]["sequelize"] = "^6.3.5"; 
                 break;
-                default:
-                break;
+                //default:
+                //break;
             }
             resolve(createdJson);
         });
@@ -162,12 +162,6 @@ export class ProjectStructure
         let currentDir: string = "";
         try
         {
-            if(this._questionSets.GetQuestionSet1().length < 1)
-            {
-                reject(new Error("this._questionSets.GetQuestionSet1 is an empty array"));
-                return;
-            }
-
             questionsandanswers = await inquirer.prompt(this._questionSets.GetQuestionSet1());
             const {rootFolder, authorsName, version, description, entry, repository, license} = questionsandanswers;
             currentDir = process.cwd();
@@ -201,7 +195,9 @@ export class ProjectStructure
         }
         catch(err)
         {
-            console.log(err)
+            //console.log(err);
+            reject(new Error(err.message));
+            return;
         }
 
         });
