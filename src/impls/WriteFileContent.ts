@@ -1,4 +1,3 @@
-import { CreateError } from "./CreateError";
 import {IWriteFileContent} from "../interfaces/IWriteFileContent";
 import fs from "fs";
 import { IFileContent } from "../interfaces/IFileContent";
@@ -33,12 +32,12 @@ export class WriteFileContent implements IWriteFileContent
       return new Promise(async (resolve, reject)=> {
         if (!this.CheckIfEmpty(false))
         {
-          reject(new CreateError("sourcePath string is empty").getError());
+          reject(new Error("sourcePath string is empty"));
           return;
         } 
         if (!this.CheckIfEmpty(true))
         {
-          reject(new CreateError("content string is empty").getError());
+          reject(new Error("content string is empty"));
           return;
         }  
         switch(this._filecontent.isJson)
@@ -53,7 +52,7 @@ export class WriteFileContent implements IWriteFileContent
         if(!fs.existsSync(`${this._filecontent.filePath}`))     
         {
             const errStr : string = "Writefile: Problem creating file";
-            reject(new CreateError(errStr).getError());
+            reject(new Error(errStr));
             return;
         }
         resolve(true);

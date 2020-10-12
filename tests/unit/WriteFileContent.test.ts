@@ -2,31 +2,49 @@ import mocha from "mocha";
 import chai from "chai";
 import { assert } from "chai";
 import {WriteFileContent} from "../../src/impls/WriteFileContent";
+import {IFileContent} from "../../src/interfaces/IFileContent";
 import * as sinon from "sinon";
 import fs from "fs";
 
-/*
+
 describe('test WriteFile class', function() {
    context("Test Error messages with WriteFile", ()=> {
 
-    it('test that we can get an error message when sourcePath is empty', function() {
-        const cb = (e:Error, r:any) => {
-            assert.equal(e.message, "sourcePath string is empty");
-            assert.isNull(r);
-        };
-        let writefileContent = new WriteFileContent("", "some content", false); 
-        writefileContent.CreateWithContent(cb);
+    it('test that we can get an error message when sourcePath is empty', async () => {
+        try
+        {
+            let iFileContent: IFileContent = {
+            filePath:"",
+            fileContent: "some content",
+            isJson: false
+        }
+        let writefileContent = new WriteFileContent(iFileContent); 
+        await writefileContent.CreateWithContent();
+        }
+        catch(err)
+        {
+            assert.isTrue(err.message == "sourcePath string is empty");
+        }
       });
     
-      it('test that we can get an error message when content is empty', function() {
-        const cb = (e:Error, r:any) => {
-            assert.equal(e.message, "content string is empty");
-            assert.isNull(r);
-        };
-        let writefileContent = new WriteFileContent("somefilePath", "", false); 
-        writefileContent.CreateWithContent(cb);
-      });
-
+      it('test that we can get an error message when content is empty', async () => {
+        try
+        {
+            let iFileContent: IFileContent = {
+                filePath:"somefilePath",
+                fileContent: "",
+                isJson: false
+            } 
+            let writefileContent = new WriteFileContent(iFileContent); 
+            await writefileContent.CreateWithContent();
+            
+        }
+      catch(err)
+        {
+            assert.isTrue(err.message == "content string is empty");
+        }
+    });
+    
    })
   
    context("test that we're still not able to write to file", ()=> {
@@ -41,16 +59,15 @@ describe('test WriteFile class', function() {
     });
 
     it('test that we cannot write files because fs.existsSync is false and are getting error message', async () => {
-        let cb = async (e:Error, r:any) => {
-            assert.isNotNull(e);
-            assert.isNull(r);
-            assert.equal(e.message, "Writefile: Problem creating file");
-          
-        };
-        let writefileContent = new WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write", false); 
+        let iFileContent: IFileContent = {
+            filePath:__dirname + "/fakeDir/writeToTestFile.txt",
+            fileContent: "Some text to write",
+            isJson: false
+           }
+        let writefileContent = new WriteFileContent(iFileContent); 
         try
         {
-            const result: any = await writefileContent.CreateWithContent(cb);
+            const result: any = await writefileContent.CreateWithContent();
               
         }
         catch(err)
@@ -74,14 +91,15 @@ describe('test WriteFile class', function() {
     });
 
     it('test that we can write files because fs.existsSync is true and are not getting error message', async ()=> {
-        let cb = async (e:Error, r:any) => {
-           assert.isNull(e);
-           assert.isTrue(r);
-        };
-        let writefileContent = new WriteFileContent(__dirname + "/fakeDir/writeToTestFile.txt", "Some text to write", false); 
+        let iFileContent: IFileContent = {
+            filePath: __dirname + "/fakeDir/writeToTestFile.txt",
+            fileContent: "Some text to write",
+            isJson: false
+           }
+        let writefileContent = new WriteFileContent(iFileContent); 
         try
         {
-            const result: any = await writefileContent.CreateWithContent(cb);
+            const result: any = await writefileContent.CreateWithContent();
             assert.isTrue(result);   
          }
         catch(err)
@@ -94,4 +112,4 @@ describe('test WriteFile class', function() {
 
   
   });
-  */
+  
