@@ -97,8 +97,7 @@ context("Test when mkdirSync is stubbed to throw EEXIST error", ()=> {
         }
         catch(error)
         {
-            console.log(error);
-            assert.isTrue(error.message == "/Users/johnakhilomen/Projects/node-badger/tests/unit/fakeDir/models folder already exist");
+            assert.isTrue(error.message.indexOf("folder already exist") != -1);
         }
     });
 });
@@ -121,8 +120,7 @@ context("Test when mkdirSync is stubbed to throw ENOENT error", ()=> {
         }
         catch(error)
         {
-            console.error(error);
-            assert.isTrue(error.message == "permission denied, when creating /Users/johnakhilomen/Projects/node-badger/tests/unit/fakeDir/models");
+            assert.isTrue(error.message.indexOf("permission denied, when creating") != -1);
         }
     });
 });
