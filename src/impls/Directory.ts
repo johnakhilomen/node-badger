@@ -34,32 +34,28 @@ export class Directory implements IDirectory
             {
                 fs.mkdirSync(subdirToCreate, {recursive: true});
                 this._createdDirs.push(subdirToCreate);
+                resolve(this._createdDirs);
             } 
             catch (err) 
             {
-                /*if (err.code === 'EEXIST') 
+                if (err.code === 'EEXIST') 
                 {
-                reject(new Error("Folder already exist"));
+                reject(new Error(`${subdirToCreate} folder already exist`));
                 return;
                 }
                 // To avoid `EISDIR` error on Mac and `EACCES`-->`ENOENT` and `EPERM` on Windows.
                 if (err.code === 'ENOENT') 
                 { 
-                    reject(new Error(`permission denied, when creating '${subdirToCreate}'`));
+                    reject(new Error(`permission denied, when creating ${subdirToCreate}`));
                     return;
                 }
-                else
-                {
-                    reject(new Error(err.message));
-                    return;
-                }*/
                 reject(new Error(err.message));
                 return;
             }
               
-            })
+            });
             
-            resolve(this._createdDirs);
+            
             })
             
       }

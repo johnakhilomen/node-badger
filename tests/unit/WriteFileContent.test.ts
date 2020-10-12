@@ -108,7 +108,7 @@ describe('test WriteFile class', function() {
         }
       });
 
-   })
+   });
 
   
   });
