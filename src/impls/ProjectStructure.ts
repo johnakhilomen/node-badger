@@ -12,9 +12,11 @@ import { config } from "process";
 import { IDirectory } from "../interfaces/IDirectory";
 import {CreatePackageJsonFile} from "./CreatePackageJsonFile"
 import { IFileContent } from "../interfaces/IFileContent";
+import "../../extensions/String.extension";
 import { create } from "domain";
 import { resolve } from "path";
 import { stringify } from "querystring";
+
 export class ProjectStructure
 {
   
@@ -25,6 +27,7 @@ export class ProjectStructure
     private getCreatePackageJsonFile = (): CreatePackageJsonFile => this._createPackageJson;
     private setCreatePackageJsonFile = (value: IPackageJson): void => { 
         this._createPackageJson = new CreatePackageJsonFile(value); 
+        
     }
     private _directory: IDirectory = {} as Directory;
     private getDirectory = (): IDirectory => this._directory;
@@ -73,7 +76,7 @@ export class ProjectStructure
             });
     }
 
-    LoadSecondQuestionsSet = async (createdJson: any, currentDir: string, rootFolder: string) : Promise<any> => {
+    LoadSecondQuestionsSet2 = async (createdJson: any, currentDir: string, rootFolder: string) : Promise<any> => {
         return new Promise(async (resolve, reject)=>{
             let questionsandanswers2: any = await inquirer.prompt(this._questionSets.GetQuestionSet2());
             const {dbType} = questionsandanswers2;
@@ -90,7 +93,7 @@ export class ProjectStructure
                        
                 });
                   `;
-                  this.WriteMongoConfFile(`${currentDir}/${rootFolder}/src/config/mongoConf.js`, configMongo, false);
+                  this.WriteMongoConfFile(`${currentDir}/${rootFolder}/src/config/mongoConf.js`, configMongo.RemoveSpacesInFrontOfEveryTextLineInAStrings(), false);
                   this.WriteMongoParamFile(`${currentDir}/${rootFolder}/src/config/params.js`);
                 break;
                 case 'postgres':
@@ -117,24 +120,10 @@ export class ProjectStructure
     }
 
     WritefileToPackageJson = (filePath: string, json: any) => {
-       /* let fileContent: IFileContent = {
-                filePath : filePath,
-                fileContent : json,
-                isJson : true
-        }      
-        let writefileContent : IWriteFileContent = new WriteFileContent(fileContent); 
-        this.getCreatePackageJsonFile().WriteFile(writefileContent);*/
         this.WriteFileContent(filePath, json, true);
     }
 
     WriteMongoConfFile = (filePath: string, json: any, isJson: boolean): any => {
-        /*let iFileContentMongo: IFileContent = {
-            filePath : filePath,
-            fileContent : json,
-            isJson : isJson          
-        };
-        let writefileContentServer:WriteFileContent = new WriteFileContent(iFileContentMongo); 
-        writefileContentServer.CreateWithContent();*/
         this.WriteFileContent(filePath, json, isJson);
     }
 
@@ -154,32 +143,23 @@ export class ProjectStructure
     const configJS = `
             module.exports = ${JSON.stringify(configJSON, null, 2)};
     `;
-    /*let iFileContentMongo: IFileContent = {
-            filePath : filePath,
-            fileContent : configJSON,
-            isJson : false          
-    };
-    let writefileContentServer:WriteFileContent = new WriteFileContent(iFileContentMongo); 
-    writefileContentServer.CreateWithContent();*/
-    this.WriteFileContent(filePath, configJSON, false);
+    this.WriteFileContent(filePath, configJSON, true);
     }
 
     CreateSrcFolderAndItsSubFolders = async (filePath: string, subdirs: any) => {
-        this.setDirectory(filePath, subdirs);
+        return new Promise(async (resolve, reject)=>{
+            this.setDirectory(filePath, subdirs);
             let createdSrcSubFolders = await this.getDirectory().CreateSubDirs();
-            if(!createdSrcSubFolders)
-            {
-                console.log("SRC SubFolders couldn't be created");
-            } 
+            resolve(createdSrcSubFolders);
+        });
+       
     }
 
-    Setup = async () => 
+    Setup = () : Promise<any> => 
     {
+        return new Promise(async (resolve, reject)=> {
         let questionsandanswers:any;
         let currentDir: string = "";
-        
-        //let writefileContent: WriteFileContent;
-        
         try
         {
             if(this._questionSets.GetQuestionSet1().length < 1)
@@ -196,8 +176,8 @@ export class ProjectStructure
             let createdJson : any = await this.CreatePackageJsonObject(rootFolder, version, 
                 description, entry, repository, authorsName, license);
             
-            let updatepackageJson: any = await this.LoadSecondQuestionsSet(createdJson, currentDir, rootFolder);  
-            console.log(updatepackageJson);        
+            let updatepackageJson: any = await this.LoadSecondQuestionsSet2(createdJson, currentDir, rootFolder);  
+            //console.log(updatepackageJson);        
             this.WritefileToPackageJson(`${currentDir}/${rootFolder}/package.json`, updatepackageJson);
             this.WriteToLocalJS(currentDir, rootFolder);
             this.CreateSrcFolderAndItsSubFolders(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
@@ -217,11 +197,14 @@ export class ProjectStructure
                   //console.log('Congratulations 🎉🎉🎉! Project setup is complete! \n Happy Hacking! 🚀');
                 });
               }, 200);
-             //cb(null, true);
+             resolve(true);
         }
         catch(err)
         {
             console.log(err)
         }
+
+        });
+        
     }
 }

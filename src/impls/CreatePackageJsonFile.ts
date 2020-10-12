@@ -51,7 +51,7 @@ export class CreatePackageJsonFile
           
     }
 
-    UpdateDependencies = (dependencies: any): any => {
+    /*UpdateDependencies = (dependencies: any): any => {
         return new Promise((resolve, reject)=> {
             Object.entries(dependencies).forEach(([k, v])=>{
                 this._jsonObj["dependencies"][`${k}`] = `${v}`; 
@@ -59,7 +59,7 @@ export class CreatePackageJsonFile
                resolve(this._jsonObj);
         });
     
-    }
+    }*/
 
     WriteFile = (writefileContent: IWriteFileContent) : any => {
         writefileContent.CreateWithContent();
