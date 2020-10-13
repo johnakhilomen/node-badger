@@ -170,12 +170,13 @@ export class ProjectStructure
             let createdJson : any = await this.CreatePackageJsonObject(rootFolder, version, 
                 description, entry, repository, authorsName, license);
             
+            this.CreateSrcFolderAndItsSubFolders(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
+            this.WriteToLocalJS(currentDir, rootFolder);
+            this.WriteToServerJS(currentDir, rootFolder);
+            
             let updatepackageJson: any = await this.LoadSecondQuestionsSet2(createdJson, currentDir, rootFolder);  
             //console.log(updatepackageJson);        
             this.WritefileToPackageJson(`${currentDir}/${rootFolder}/package.json`, updatepackageJson);
-            this.WriteToLocalJS(currentDir, rootFolder);
-            this.CreateSrcFolderAndItsSubFolders(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
-            this.WriteToServerJS(currentDir, rootFolder);
             setTimeout(()=>{
                 let executeCmd = new ExecuteCmd(`npm install -C ${rootFolder}`);
                 executeCmd.on("donewithnoerrors", ()=>{

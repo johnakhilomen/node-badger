@@ -13,18 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WriteFileContent = void 0;
-const CreateError_1 = require("./CreateError");
 const fs_1 = __importDefault(require("fs"));
 class WriteFileContent {
     constructor(filecontent) {
         this.CreateWithContent = () => {
             return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
                 if (!this.CheckIfEmpty(false)) {
-                    reject(new CreateError_1.CreateError("sourcePath string is empty").getError());
+                    reject(new Error("sourcePath string is empty"));
                     return;
                 }
                 if (!this.CheckIfEmpty(true)) {
-                    reject(new CreateError_1.CreateError("content string is empty").getError());
+                    reject(new Error("content string is empty"));
                     return;
                 }
                 switch (this._filecontent.isJson) {
@@ -37,7 +36,7 @@ class WriteFileContent {
                 }
                 if (!fs_1.default.existsSync(`${this._filecontent.filePath}`)) {
                     const errStr = "Writefile: Problem creating file";
-                    reject(new CreateError_1.CreateError(errStr).getError());
+                    reject(new Error(errStr));
                     return;
                 }
                 resolve(true);

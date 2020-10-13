@@ -241,5 +241,40 @@ describe("Test suite for Project Structure", () => {
             //assert.isTrue(CreateSrcFolderAndItsSubFoldersSpy.calledOnce);
         }));
     });
+    context("Test when Setup is stubbed to throw error", () => {
+        let setUpStub;
+        let questionSets = {};
+        let projectStructure = {};
+        let err = new Error("Some Error");
+        let promptQuestionsStubs;
+        before(() => {
+            questionSets = new QuestionSets_1.QuestionSets();
+            projectStructure = new ProjectStructure_1.ProjectStructure(questionSets);
+            setUpStub = sinon_1.default.stub(projectStructure, "WritefileToPackageJson").throws(err);
+            promptQuestionsStubs = sinon_1.default.stub(inquirer_1.default, "prompt").resolves({
+                rootFolder: "projecttest",
+                authorsName: "Jon Doe",
+                version: "1.0.0",
+                description: "Some description",
+                entry: "index.js",
+                repository: "repo",
+                license: "MIT",
+                dbType: "mongo"
+            });
+        });
+        after(() => {
+            setUpStub.restore();
+            promptQuestionsStubs.restore();
+        });
+        it("projectStructure.Setup() throws error", () => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                yield projectStructure.Setup();
+            }
+            catch (error) {
+                //console.log(error.message);
+                chai_1.assert.isTrue(error.message == "Some Error");
+            }
+        }));
+    });
 });
 //# sourceMappingURL=ProjectStructure.test.js.map

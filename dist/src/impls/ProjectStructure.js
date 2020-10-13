@@ -91,8 +91,8 @@ class ProjectStructure {
                         createdJson["dependencies"]["pg-hstore"] = "^2.3.3";
                         createdJson["dependencies"]["sequelize"] = "^6.3.5";
                         break;
-                    default:
-                        break;
+                    //default:
+                    //break;
                 }
                 resolve(createdJson);
             }));
@@ -140,21 +140,17 @@ class ProjectStructure {
                 let questionsandanswers;
                 let currentDir = "";
                 try {
-                    if (this._questionSets.GetQuestionSet1().length < 1) {
-                        //cb(new Error("this._questionSets.GetQuestionSet1 is an empty array"), false);
-                        return;
-                    }
                     questionsandanswers = yield inquirer_1.default.prompt(this._questionSets.GetQuestionSet1());
                     const { rootFolder, authorsName, version, description, entry, repository, license } = questionsandanswers;
                     currentDir = process.cwd();
                     let createdRootFolder = yield this.CreateRootFolder(currentDir, rootFolder);
                     let createdJson = yield this.CreatePackageJsonObject(rootFolder, version, description, entry, repository, authorsName, license);
+                    this.CreateSrcFolderAndItsSubFolders(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
+                    this.WriteToLocalJS(currentDir, rootFolder);
+                    this.WriteToServerJS(currentDir, rootFolder);
                     let updatepackageJson = yield this.LoadSecondQuestionsSet2(createdJson, currentDir, rootFolder);
                     //console.log(updatepackageJson);        
                     this.WritefileToPackageJson(`${currentDir}/${rootFolder}/package.json`, updatepackageJson);
-                    this.WriteToLocalJS(currentDir, rootFolder);
-                    this.CreateSrcFolderAndItsSubFolders(`${currentDir}/${rootFolder}/src`, this._srcSubDirs);
-                    this.WriteToServerJS(currentDir, rootFolder);
                     setTimeout(() => {
                         let executeCmd = new ExecuteCmd_1.ExecuteCmd(`npm install -C ${rootFolder}`);
                         executeCmd.on("donewithnoerrors", () => {
@@ -173,7 +169,9 @@ class ProjectStructure {
                     resolve(true);
                 }
                 catch (err) {
-                    console.log(err);
+                    //console.log(err);
+                    reject(new Error(err.message));
+                    return;
                 }
             }));
         };
