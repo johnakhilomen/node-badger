@@ -1,6 +1,6 @@
 {
   "name": "node-badger",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "node-badger a framework for building node applications.",
   "main": "dist/bin/main.js",
   "scripts": {
