@@ -10,7 +10,6 @@ export class PackageJson
     _writefileContent: IWriteFileContent;
     constructor(packageJson: IPackageJson, writefileContent: IWriteFileContent, dirPath: string)
     {
-        //console.log("dirPath"+dirPath)
         this._packageJson = packageJson;
         this._dirPath = dirPath;
         this._writefileContent = writefileContent;
@@ -24,13 +23,6 @@ export class PackageJson
                 reject(new Error("empty properties in _packageJson"));
                 return;
             }
-            /*let fileContent: IFileContent = {
-                filePath : this._dirPath,
-                fileContent : this._jsonObj,
-                isJson : true
-           }
-            let writefileContent: IWriteFileContent= new WriteFileContent(fileContent); 
-            writefileContent.CreateWithContent();*/
             this._writefileContent.CreateWithContent();
             resolve(true);
 

@@ -175,7 +175,6 @@ export class ProjectStructure
             this.WriteToServerJS(currentDir, rootFolder);
             
             let updatepackageJson: any = await this.LoadSecondQuestionsSet2(createdJson, currentDir, rootFolder);  
-            //console.log(updatepackageJson);        
             this.WritefileToPackageJson(`${currentDir}/${rootFolder}/package.json`, updatepackageJson);
             setTimeout(()=>{
                 let executeCmd = new ExecuteCmd(`npm install -C ${rootFolder}`);
@@ -189,14 +188,12 @@ export class ProjectStructure
                         })
                         });
                     }, 200);                 
-                  //console.log('Congratulations 🎉🎉🎉! Project setup is complete! \n Happy Hacking! 🚀');
                 });
               }, 200);
              resolve(true);
         }
         catch(err)
         {
-            //console.log(err);
             reject(new Error(err.message));
             return;
         }

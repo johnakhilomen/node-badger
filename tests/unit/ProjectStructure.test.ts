@@ -302,7 +302,6 @@ describe("Test suite for Project Structure", ()=> {
             }
             catch(error)
             {
-                //console.log(error.message);
                 assert.isTrue(error.message == "Some Error");
             }
         });

@@ -11,7 +11,6 @@ export class CreatePackageJsonFile
     _iPackageJson: IPackageJson;
     constructor(iPackageJson: IPackageJson)
     {
-        //`${currentDir}/${rootFolder}/package.json`,
         this._iPackageJson = iPackageJson;
     }
 
@@ -50,16 +49,6 @@ export class CreatePackageJsonFile
        
           
     }
-
-    /*UpdateDependencies = (dependencies: any): any => {
-        return new Promise((resolve, reject)=> {
-            Object.entries(dependencies).forEach(([k, v])=>{
-                this._jsonObj["dependencies"][`${k}`] = `${v}`; 
-               });
-               resolve(this._jsonObj);
-        });
-    
-    }*/
 
     WriteFile = (writefileContent: IWriteFileContent) : any => {
         writefileContent.CreateWithContent();

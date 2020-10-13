@@ -13,7 +13,6 @@ export class RouterGenerator
          fileContent: `${content}`,
          isJson: false
         }
-        //this._writeFileContent = new WriteFileContent(path, `${content}`, false);
         this._writeFileContent = new WriteFileContent(iFileContent);
     }
 
